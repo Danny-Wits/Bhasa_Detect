@@ -67,7 +67,7 @@ export default function Landing() {
 
           <Container size="xl" py={5} style={{ position: 'relative', zIndex: 1 }}>
             <SimpleGrid cols={{ base: 1, md: 2 }} spacing="xl" align="center">
-              <Stack justify="center" >
+              <Stack justify="center" align='center' >
                 <Title fz={{ base: 36, sm: 48, md: 56 }} lh={1.1} fw={900} mb="md">
                   Teach AI to understand{' '}
                   <Text component="span" variant="gradient" gradient={{ from: 'blue.7', to: 'grape.7', deg: 45 }} inherit>
