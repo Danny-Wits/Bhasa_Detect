@@ -27,50 +27,40 @@ body {
 }
 
 .shape-2 {
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
-  background: #868e96;
+  background: #ced4da;
   bottom: -60px;
   right: 15%;
   animation-delay: -3s;
 }
 
+/* Squares */
 .shape-3 {
   width: 120px;
   height: 120px;
-  border-radius: 50%;
-  background: #ced4da;
+  background: #868e96;
   top: 30%;
   left: 50%;
+  transform: rotate(15deg);
   animation-delay: -6s;
   animation-duration: 12s;
 }
 
 .shape-4 {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: #495057;
-  top: 15%;
-  right: 25%;
+  width: 250px;
+  height: 250px;
+  background: #dee2e6;
+  bottom: -100px;
+  left: 20%;
+  transform: rotate(45deg);
   animation-delay: -9s;
   animation-duration: 18s;
 }
 
+/* Rounded Squares */
 .shape-5 {
-  width: 500px;
-  height: 500px;
-  border-radius: 50%;
-  background: #dee2e6;
-  bottom: -200px;
-  left: 20%;
-  animation-delay: -4s;
-  animation-duration: 20s;
-}
-
-/* Rounded rectangles */
-.shape-6 {
   width: 280px;
   height: 280px;
   border-radius: 60px;
@@ -78,82 +68,20 @@ body {
   top: -80px;
   right: -60px;
   transform: rotate(25deg);
-  animation-delay: -7s;
-  animation-duration: 16s;
+  animation-delay: -4s;
+  animation-duration: 20s;
 }
 
-.shape-7 {
-  width: 160px;
-  height: 160px;
-  border-radius: 40px;
-  background: #868e96;
-  bottom: 15%;
-  left: 8%;
-  transform: rotate(45deg);
-  animation-delay: -2s;
-  animation-duration: 14s;
-}
-
-.shape-8 {
-  width: 100px;
-  height: 100px;
-  border-radius: 24px;
-  background: #ced4da;
-  top: 60%;
-  right: 35%;
-  transform: rotate(60deg);
-  animation-delay: -11s;
-  animation-duration: 17s;
-}
-
-/* Pill shapes */
-.shape-9 {
-  width: 300px;
-  height: 80px;
-  border-radius: 40px;
-  background: #dee2e6;
-  top: 75%;
-  left: -50px;
-  transform: rotate(-15deg);
-  animation-delay: -5s;
-  animation-duration: 19s;
-}
-
-.shape-10 {
-  width: 220px;
-  height: 60px;
-  border-radius: 30px;
-  background: #adb5bd;
-  top: 10%;
-  left: 30%;
-  transform: rotate(10deg);
-  animation-delay: -8s;
-  animation-duration: 13s;
-}
-
-/* Diamonds */
-.shape-11 {
-  width: 140px;
-  height: 140px;
-  border-radius: 20px;
-  background: #495057;
-  top: 50%;
-  right: 8%;
-  transform: rotate(45deg);
-  animation-delay: -1s;
-  animation-duration: 15s;
-}
-
-.shape-12 {
+.shape-6 {
   width: 90px;
   height: 90px;
-  border-radius: 14px;
-  background: #ced4da;
-  top: 5%;
-  left: 60%;
-  transform: rotate(45deg);
-  animation-delay: -10s;
-  animation-duration: 22s;
+  border-radius: 20px;
+  background: #495057;
+  top: 60%;
+  right: 25%;
+  transform: rotate(60deg);
+  animation-delay: -7s;
+  animation-duration: 16s;
 }
 
 @keyframes float-shape {
