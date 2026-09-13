@@ -1,12 +1,12 @@
 import React from 'react';
 import {
   AppShell, Container, Title, Text, Button, Group,
-  SimpleGrid, ThemeIcon, Stack, Image, Paper, Badge, Center, Divider, List
+  SimpleGrid, ThemeIcon, Stack, Image, Paper, Badge, Center, Divider, List, Box, ActionIcon
 } from '@mantine/core';
 import {
   IconMicrophone, IconBrain, IconGlobe, IconArrowRight,
   IconShieldCheck, IconChartBar, IconLanguage, IconDeviceAnalytics,
-  IconNumber1, IconNumber2, IconNumber3, IconNumber4, IconNumber5
+  IconNumber1, IconNumber2, IconNumber3, IconNumber4, IconNumber5, IconChevronDown
 } from '@tabler/icons-react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../lib/authContext';
@@ -120,6 +120,24 @@ export default function Landing() {
               </div>
             </SimpleGrid>
           </Container>
+
+          {/* Animated Scroll Down (PC Only) */}
+          <Box
+            visibleFrom="md"
+            className="scroll-bounce"
+            style={{
+              position: 'absolute',
+              bottom: '30px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              zIndex: 10
+            }}
+            onClick={() => document.getElementById('how-it-works').scrollIntoView({ behavior: 'smooth' })}
+          >
+            <ActionIcon size="xl" radius="xl" variant="transparent" color="dark">
+              <IconChevronDown size={40} stroke={1.5} />
+            </ActionIcon>
+          </Box>
         </div>
 
         {/* ─── HOW IT WORKS ─── */}

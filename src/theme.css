@@ -7,11 +7,12 @@ body {
 .hero-wrapper {
   position: relative;
   overflow: hidden;
+  min-height: 100vh;
 }
 
 .floating-shape {
   position: absolute;
-  opacity: 0.25;
+  opacity: 0.28;
   animation: float-shape 8s infinite ease-in-out alternate;
   z-index: 0;
 }
@@ -45,6 +46,7 @@ body {
   background: #868e96;
   top: 30%;
   left: 50%;
+  border-radius: 10px;
   transform: rotate(15deg);
   animation-delay: -2s;
   animation-duration: 10s;
@@ -112,4 +114,14 @@ body {
 @keyframes float-shape {
   0% { transform: translateY(0) rotate(0deg); }
   100% { transform: translateY(-60px) rotate(45deg); }
+}
+
+@keyframes scroll-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(10px); }
+}
+
+.scroll-bounce {
+  animation: scroll-bounce 2s ease-in-out infinite;
+  cursor: pointer;
 }
