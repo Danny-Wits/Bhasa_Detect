@@ -11,7 +11,7 @@ import {
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../lib/authContext';
 import Logo from '../components/Logo';
-import landingHeroWhite from '../assets/landing_hero_white.jpg';
+import landingHeroWhite from '../assets/landing_hero_white_nobg.png';
 
 export default function Landing() {
   const navigate = useNavigate();
@@ -119,7 +119,7 @@ export default function Landing() {
                 <Image
                   src={landingHeroWhite}
                   alt="AI Voice Network"
-                  style={{ mixBlendMode: 'multiply', filter: 'grayscale(100%) contrast(1.2) brightness(1.05)', opacity: 0.9 }}
+                  style={{ mixBlendMode: 'multiply', filter: 'grayscale(100%) contrast(200%) brightness(0.7)', opacity: 1 }}
                 />
               </div>
             </SimpleGrid>
