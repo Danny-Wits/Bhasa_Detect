@@ -20,7 +20,7 @@ export default function Landing() {
   const steps = [
     { icon: IconNumber1, title: 'Create Your Profile', desc: 'Sign up and tell us your name, age, place, and which language combination you speak.' },
     { icon: IconNumber2, title: 'Choose Your Languages', desc: 'Pick from Hindi + English, Hindi + Dogri, English + Dogri, or all three combined.' },
-    { icon: IconNumber3, title: 'Read the Sentences', desc: 'You'll see 5 sentences in your selected languages. Read each one aloud — the mic activates automatically.' },
+    { icon: IconNumber3, title: 'Read the Sentences', desc: 'You\'ll see 5 sentences in your selected languages. Read each one aloud — the mic activates automatically.' },
     { icon: IconNumber4, title: 'AI Predicts the Language', desc: 'Our CNN-LSTM model extracts MFCC features from your voice and predicts Hindi, English, Dogri, or Other in real time.' },
     { icon: IconNumber5, title: 'Get Your Results', desc: 'See your accuracy, confidence scores, and a detailed breakdown. Your audio is never stored — only metadata is saved.' },
   ];
