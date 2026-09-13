@@ -64,6 +64,12 @@ export default function Landing() {
           <div className="floating-shape shape-4"></div>
           <div className="floating-shape shape-5"></div>
           <div className="floating-shape shape-6"></div>
+          <div className="floating-shape shape-7"></div>
+          <div className="floating-shape shape-8"></div>
+          <div className="floating-shape shape-9"></div>
+          <div className="floating-shape shape-10"></div>
+          <div className="floating-shape shape-11"></div>
+          <div className="floating-shape shape-12"></div>
 
           <Container size="xl" py={{ base: 60, md: 100 }} style={{ position: 'relative', zIndex: 1 }}>
             <SimpleGrid cols={{ base: 1, md: 2 }} spacing="xl" align="center">
@@ -113,8 +119,7 @@ export default function Landing() {
                 <Image
                   src={landingHeroWhite}
                   alt="AI Voice Network"
-                  radius="md"
-                  style={{ mixBlendMode: 'multiply', filter: 'grayscale(100%)' }}
+                  style={{ mixBlendMode: 'multiply', filter: 'grayscale(100%) contrast(1.2) brightness(1.05)', opacity: 0.9 }}
                 />
               </div>
             </SimpleGrid>
