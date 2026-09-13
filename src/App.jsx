@@ -13,6 +13,8 @@ import Record from './pages/Record';
 const theme = createTheme({
   primaryColor: 'dark',
   defaultRadius: 'md',
+  fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif',
+  headings: { fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif' },
   components: {
     Button: {
       defaultProps: {

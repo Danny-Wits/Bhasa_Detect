@@ -11,7 +11,7 @@ body {
 
 .floating-shape {
   position: absolute;
-  opacity: 0.15;
+  opacity: 0.25;
   animation: float-shape 15s infinite ease-in-out alternate;
   z-index: 0;
 }
