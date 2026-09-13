@@ -198,34 +198,36 @@ export default function Dashboard() {
                   <Text fw={600}>Recent Sessions</Text>
                   <IconLanguage size={18} color="var(--mantine-color-dimmed)" />
                 </Group>
-                <Table striped highlightOnHover withTableBorder>
-                  <Table.Thead>
-                    <Table.Tr>
-                      <Table.Th>Session</Table.Th>
-                      <Table.Th>Date</Table.Th>
-                      <Table.Th>Languages</Table.Th>
-                      <Table.Th>Sentences</Table.Th>
-                      <Table.Th>Accuracy</Table.Th>
-                      <Table.Th>Duration</Table.Th>
-                    </Table.Tr>
-                  </Table.Thead>
-                  <Table.Tbody>
-                    {data.recentSessions.map((s) => (
-                      <Table.Tr key={s.id}>
-                        <Table.Td fw={500}>{s.id}</Table.Td>
-                        <Table.Td>{s.date}</Table.Td>
-                        <Table.Td>{s.combo}</Table.Td>
-                        <Table.Td>{s.sentences}</Table.Td>
-                        <Table.Td>
-                          <Badge variant="light" color="dark">
-                            {s.accuracy}%
-                          </Badge>
-                        </Table.Td>
-                        <Table.Td>{s.duration}</Table.Td>
+                <Table.ScrollContainer minWidth={600}>
+                  <Table striped highlightOnHover withTableBorder>
+                    <Table.Thead>
+                      <Table.Tr>
+                        <Table.Th>Session</Table.Th>
+                        <Table.Th>Date</Table.Th>
+                        <Table.Th>Languages</Table.Th>
+                        <Table.Th>Sentences</Table.Th>
+                        <Table.Th>Accuracy</Table.Th>
+                        <Table.Th>Duration</Table.Th>
                       </Table.Tr>
-                    ))}
-                  </Table.Tbody>
-                </Table>
+                    </Table.Thead>
+                    <Table.Tbody>
+                      {data.recentSessions.map((s) => (
+                        <Table.Tr key={s.id}>
+                          <Table.Td fw={500}>{s.id}</Table.Td>
+                          <Table.Td>{s.date}</Table.Td>
+                          <Table.Td>{s.combo}</Table.Td>
+                          <Table.Td>{s.sentences}</Table.Td>
+                          <Table.Td>
+                            <Badge variant="light" color="dark">
+                              {s.accuracy}%
+                            </Badge>
+                          </Table.Td>
+                          <Table.Td>{s.duration}</Table.Td>
+                        </Table.Tr>
+                      ))}
+                    </Table.Tbody>
+                  </Table>
+                </Table.ScrollContainer>
               </Paper>
             </Stack>
           )}

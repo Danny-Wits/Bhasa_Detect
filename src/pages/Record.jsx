@@ -152,32 +152,34 @@ export default function Record() {
 
                 <Divider w="100%" />
 
-                <Table striped highlightOnHover withTableBorder w="100%">
-                  <Table.Thead>
-                    <Table.Tr>
-                      <Table.Th>#</Table.Th>
-                      <Table.Th>Expected</Table.Th>
-                      <Table.Th>Predicted</Table.Th>
-                      <Table.Th>Confidence</Table.Th>
-                      <Table.Th>Result</Table.Th>
-                    </Table.Tr>
-                  </Table.Thead>
-                  <Table.Tbody>
-                    {results.map((r, i) => (
-                      <Table.Tr key={i}>
-                        <Table.Td>{i + 1}</Table.Td>
-                        <Table.Td>{r.expectedLanguage}</Table.Td>
-                        <Table.Td>{r.predictedLanguage}</Table.Td>
-                        <Table.Td>{Math.round(r.confidence * 100)}%</Table.Td>
-                        <Table.Td>
-                          <Badge color={r.isCorrect ? 'dark' : 'gray'} variant={r.isCorrect ? 'filled' : 'outline'}>
-                            {r.isCorrect ? '✓ Correct' : '✗ Incorrect'}
-                          </Badge>
-                        </Table.Td>
+                <Table.ScrollContainer minWidth={500} w="100%">
+                  <Table striped highlightOnHover withTableBorder w="100%">
+                    <Table.Thead>
+                      <Table.Tr>
+                        <Table.Th>#</Table.Th>
+                        <Table.Th>Expected</Table.Th>
+                        <Table.Th>Predicted</Table.Th>
+                        <Table.Th>Confidence</Table.Th>
+                        <Table.Th>Result</Table.Th>
                       </Table.Tr>
-                    ))}
-                  </Table.Tbody>
-                </Table>
+                    </Table.Thead>
+                    <Table.Tbody>
+                      {results.map((r, i) => (
+                        <Table.Tr key={i}>
+                          <Table.Td>{i + 1}</Table.Td>
+                          <Table.Td>{r.expectedLanguage}</Table.Td>
+                          <Table.Td>{r.predictedLanguage}</Table.Td>
+                          <Table.Td>{Math.round(r.confidence * 100)}%</Table.Td>
+                          <Table.Td>
+                            <Badge color={r.isCorrect ? 'dark' : 'gray'} variant={r.isCorrect ? 'filled' : 'outline'}>
+                              {r.isCorrect ? '✓ Correct' : '✗ Incorrect'}
+                            </Badge>
+                          </Table.Td>
+                        </Table.Tr>
+                      ))}
+                    </Table.Tbody>
+                  </Table>
+                </Table.ScrollContainer>
 
                 <Group w="100%">
                   <Button variant="light" flex={1} onClick={initSession}>
