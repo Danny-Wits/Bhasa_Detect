@@ -40,7 +40,7 @@ export default function Onboarding() {
 
           <div style={{ backgroundColor: 'var(--mantine-color-gray-0)', padding: '2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <Stack align="center" mb="lg">
-              <ThemeIcon size={60} radius="xl" color="grape" variant="light">
+              <ThemeIcon size={60} radius="xl">
                 <IconLanguage size={34} />
               </ThemeIcon>
               <Title order={3} ta="center">Speaker Profile</Title>
@@ -64,13 +64,13 @@ export default function Onboarding() {
                   data={LANGUAGE_COMBOS}
                   {...form.getInputProps('languageCombo')}
                 />
-                <Button type="submit" size="md" mt="md" color="grape" fullWidth>Complete Profile</Button>
+                <Button type="submit" size="md" mt="md" fullWidth>Complete Profile</Button>
               </Stack>
             </form>
           </div>
 
           <div style={{ padding: '2.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
-            <Image src={onboardingArt} alt="Multilingual collaboration" radius="md" />
+            <Image src={onboardingArt} alt="Multilingual collaboration" radius="md" style={{ filter: 'grayscale(100%)' }} />
           </div>
 
         </SimpleGrid>

@@ -9,20 +9,13 @@ export default function Logo({ size = 32, style }) {
       height={size}
       style={style}
     >
-      <defs>
-        <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: '#3b5bdb', stopOpacity: 1 }} />
-          <stop offset="100%" style={{ stopColor: '#9c36b5', stopOpacity: 1 }} />
-        </linearGradient>
-      </defs>
-      
-      <rect x="56" y="56" width="400" height="400" rx="90" fill="url(#logo-grad)" />
+      <rect x="56" y="56" width="400" height="400" rx="90" fill="#1a1b1e" />
       
       <rect x="150" y="200" width="40" height="112" rx="20" fill="#ffffff" />
       <rect x="236" y="130" width="40" height="252" rx="20" fill="#ffffff" />
       <rect x="322" y="210" width="40" height="92" rx="20" fill="#ffffff" />
       
-      <circle cx="342" cy="150" r="24" fill="#eebefa" />
+      <circle cx="342" cy="150" r="24" fill="#909296" />
     </svg>
   );
 }

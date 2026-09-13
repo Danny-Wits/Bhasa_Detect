@@ -47,9 +47,7 @@ export default function Record() {
           <Group h="100%" px="md" justify="space-between">
             <Group gap="sm" component={Link} to="/" style={{ textDecoration: 'none' }}>
               <Logo size={32} />
-              <Text fw={700} size="lg" variant="gradient" gradient={{ from: 'blue.7', to: 'grape.7', deg: 45 }}>
-                Bhasa Detect
-              </Text>
+              <Text fw={700} size="lg" c="dark">Bhasa Detect</Text>
             </Group>
             <Button variant="subtle" color="gray" onClick={logout}>Logout</Button>
           </Group>
@@ -59,7 +57,7 @@ export default function Record() {
           <Container size="sm" py={60}>
             <Paper withBorder shadow="md" p="xl" radius="lg">
               <Stack align="center" gap="xl">
-                <ThemeIcon size={80} radius="xl" variant="light" color="grape">
+                <ThemeIcon size={80} radius="xl">
                   <IconMicrophone size={40} />
                 </ThemeIcon>
 
@@ -72,7 +70,7 @@ export default function Record() {
                   </Text>
                 </div>
 
-                <Alert icon={<IconInfoCircle size={20} />} color="blue" variant="light" w="100%">
+                <Alert icon={<IconInfoCircle size={20} />} color="gray" variant="light" w="100%">
                   <Text size="sm">
                     <strong>How it works:</strong> Your microphone will activate when you tap record.
                     Speak the displayed sentence clearly. The system extracts audio features and runs
@@ -118,9 +116,7 @@ export default function Record() {
           <Group h="100%" px="md" justify="space-between">
             <Group gap="sm" component={Link} to="/" style={{ textDecoration: 'none' }}>
               <Logo size={32} />
-              <Text fw={700} size="lg" variant="gradient" gradient={{ from: 'blue.7', to: 'grape.7', deg: 45 }}>
-                Bhasa Detect
-              </Text>
+              <Text fw={700} size="lg" c="dark">Bhasa Detect</Text>
             </Group>
             <Button variant="subtle" color="gray" onClick={logout}>Logout</Button>
           </Group>
@@ -130,27 +126,27 @@ export default function Record() {
           <Container size="md" py={60}>
             <Paper withBorder shadow="md" p="xl" radius="lg">
               <Stack align="center" gap="lg">
-                <ThemeIcon size={80} radius="xl" color="green" variant="light">
+                <ThemeIcon size={80} radius="xl" color="dark">
                   <IconCheck size={40} />
                 </ThemeIcon>
                 <Title order={2} ta="center">Session Complete!</Title>
                 <Text c="dimmed" ta="center">
                   Great job, {profile?.name}! You have completed all {totalSentences} sentences.
-                  Here's a quick summary of your session.
+                  Here is a quick summary of your session.
                 </Text>
 
                 <Group grow w="100%">
                   <Paper withBorder p="md" radius="md" ta="center">
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>Accuracy</Text>
-                    <Text fw={700} fz={28} c={accuracy >= 80 ? 'green' : 'orange'}>{accuracy}%</Text>
+                    <Text fw={700} fz={28}>{accuracy}%</Text>
                   </Paper>
                   <Paper withBorder p="md" radius="md" ta="center">
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>Correct</Text>
-                    <Text fw={700} fz={28} c="green">{correct}/{totalSentences}</Text>
+                    <Text fw={700} fz={28}>{correct}/{totalSentences}</Text>
                   </Paper>
                   <Paper withBorder p="md" radius="md" ta="center">
                     <Text c="dimmed" size="xs" tt="uppercase" fw={700}>Avg. Confidence</Text>
-                    <Text fw={700} fz={28} c="blue">{avgConf}%</Text>
+                    <Text fw={700} fz={28}>{avgConf}%</Text>
                   </Paper>
                 </Group>
 
@@ -174,8 +170,8 @@ export default function Record() {
                         <Table.Td>{r.predictedLanguage}</Table.Td>
                         <Table.Td>{Math.round(r.confidence * 100)}%</Table.Td>
                         <Table.Td>
-                          <Badge color={r.isCorrect ? 'green' : 'red'} variant="light">
-                            {r.isCorrect ? 'Correct' : 'Incorrect'}
+                          <Badge color={r.isCorrect ? 'dark' : 'gray'} variant={r.isCorrect ? 'filled' : 'outline'}>
+                            {r.isCorrect ? '✓ Correct' : '✗ Incorrect'}
                           </Badge>
                         </Table.Td>
                       </Table.Tr>
@@ -208,12 +204,10 @@ export default function Record() {
         <Group h="100%" px="md" justify="space-between">
           <Group gap="sm" component={Link} to="/" style={{ textDecoration: 'none' }}>
             <Logo size={32} />
-            <Text fw={700} size="lg" variant="gradient" gradient={{ from: 'blue.7', to: 'grape.7', deg: 45 }}>
-              Bhasa Detect
-            </Text>
+            <Text fw={700} size="lg" c="dark">Bhasa Detect</Text>
           </Group>
           <Group gap="sm">
-            <Badge variant="light" color="blue">{profile?.name}</Badge>
+            <Badge variant="light" color="gray">{profile?.name}</Badge>
             <Button variant="subtle" color="gray" onClick={logout}>Logout</Button>
           </Group>
         </Group>
@@ -230,14 +224,14 @@ export default function Record() {
                   {results.filter(Boolean).length} of {totalSentences} completed
                 </Text>
               </Group>
-              <Progress value={progressPercent} size="lg" radius="xl" color="grape" animated />
+              <Progress value={progressPercent} size="lg" radius="xl" color="dark" animated />
             </Paper>
 
             {/* Sentence Stepper */}
             <Stepper
               active={currentIndex}
               size="sm"
-              color="grape"
+              color="dark"
               completedIcon={<IconCheck size={14} />}
             >
               {Array.from({ length: totalSentences }).map((_, i) => (
@@ -251,10 +245,10 @@ export default function Record() {
 
             {/* Recording Card */}
             <Paper withBorder shadow="sm" p="xl" radius="lg" style={{ position: 'relative', overflow: 'hidden' }}>
-              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 4, background: 'var(--mantine-color-grape-filled)' }} />
+              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 4, background: '#1a1b1e' }} />
 
               <Stack align="center" gap="lg" mt="sm">
-                <Badge size="lg" variant="dot" color="grape">
+                <Badge size="lg" variant="light" color="dark">
                   Sentence {currentIndex + 1} of {totalSentences} — {currentSentence?.language}
                 </Badge>
 
@@ -268,7 +262,7 @@ export default function Record() {
 
                 {isPredicting && (
                   <Stack align="center" gap="sm">
-                    <Loader size="lg" variant="bars" color="grape" />
+                    <Loader size="lg" variant="bars" color="dark" />
                     <Text fw={500} c="dimmed">Analyzing speech with CNN-LSTM model...</Text>
                   </Stack>
                 )}
@@ -277,13 +271,14 @@ export default function Record() {
                   <Paper withBorder p="md" radius="md" w="100%" bg="gray.0">
                     <Group justify="space-between" wrap="nowrap">
                       <Group>
-                        <Center w={50} h={50} style={{ borderRadius: '50%', background: 'white' }}>
-                          <IconBrain size={28} color="var(--mantine-color-grape-6)" />
+                        <Center w={50} h={50} style={{ borderRadius: '50%', background: 'white', border: '2px solid #dee2e6' }}>
+                          <IconBrain size={28} color="#1a1b1e" />
                         </Center>
                         <div>
                           <Text size="sm" c="dimmed">AI Prediction</Text>
-                          <Text fw={700} size="lg" c={currentPrediction.isCorrect ? 'green' : 'red'}>
+                          <Text fw={700} size="lg">
                             {currentPrediction.predictedLanguage}
+                            {currentPrediction.isCorrect ? ' ✓' : ' ✗'}
                           </Text>
                         </div>
                       </Group>
@@ -291,7 +286,7 @@ export default function Record() {
                         size={60}
                         thickness={6}
                         roundCaps
-                        sections={[{ value: currentPrediction.confidence * 100, color: currentPrediction.isCorrect ? 'green' : 'orange' }]}
+                        sections={[{ value: currentPrediction.confidence * 100, color: 'dark' }]}
                         label={
                           <Center>
                             <Text fw={700} size="xs">
@@ -310,8 +305,7 @@ export default function Record() {
             {currentPrediction && (
               <Group grow>
                 <Button
-                  variant="light"
-                  color="gray"
+                  variant="default"
                   leftSection={<IconArrowLeft size={16} />}
                   onClick={goBack}
                   disabled={currentIndex === 0}
@@ -320,7 +314,6 @@ export default function Record() {
                 </Button>
                 {isLastSentence ? (
                   <Button
-                    color="green"
                     rightSection={<IconCheck size={16} />}
                     disabled={!allDone}
                     onClick={() => {/* allDone triggers complete view */}}

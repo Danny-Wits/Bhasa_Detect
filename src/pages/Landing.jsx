@@ -38,7 +38,7 @@ export default function Landing() {
           <Group h="100%" justify="space-between">
             <Group gap="sm" component={Link} to="/" style={{ textDecoration: 'none' }}>
               <Logo size={32} />
-              <Text fw={700} size="lg" variant="gradient" gradient={{ from: 'blue.7', to: 'grape.7', deg: 45 }}>
+              <Text fw={700} size="lg" c="dark">
                 Bhasa Detect
               </Text>
             </Group>
@@ -68,12 +68,12 @@ export default function Landing() {
           <Container size="xl" py={{ base: 60, md: 100 }} style={{ position: 'relative', zIndex: 1 }}>
             <SimpleGrid cols={{ base: 1, md: 2 }} spacing="xl" align="center">
               <Stack justify="center" align={{ base: 'center', md: 'flex-start' }}>
-                <Badge size="lg" variant="light" color="grape" mb="xs">
-                  🎙️ Spoken Language Identification
+                <Badge size="lg" variant="dot" color="dark" mb="xs">
+                   Spoken Language Identification
                 </Badge>
                 <Title fz={{ base: 32, sm: 44, md: 52 }} lh={1.1} fw={900} ta={{ base: 'center', md: 'left' }}>
                   Help AI understand{' '}
-                  <Text component="span" variant="gradient" gradient={{ from: 'blue.7', to: 'grape.7', deg: 45 }} inherit>
+                  <Text component="span" td="underline" style={{ textDecorationColor: 'var(--mantine-color-gray-4)' }} inherit>
                     every voice,
                   </Text>{' '}
                   every language.
@@ -95,15 +95,15 @@ export default function Landing() {
                 {/* Trust badges */}
                 <Group gap="xl" mt="lg">
                   <Group gap={6}>
-                    <IconShieldCheck size={18} color="var(--mantine-color-green-6)" />
+                    <IconShieldCheck size={18} color="var(--mantine-color-dark-4)" />
                     <Text size="xs" c="dimmed">Audio never stored</Text>
                   </Group>
                   <Group gap={6}>
-                    <IconChartBar size={18} color="var(--mantine-color-blue-6)" />
+                    <IconChartBar size={18} color="var(--mantine-color-dark-4)" />
                     <Text size="xs" c="dimmed">Real-time analysis</Text>
                   </Group>
                   <Group gap={6}>
-                    <IconLanguage size={18} color="var(--mantine-color-grape-6)" />
+                    <IconLanguage size={18} color="var(--mantine-color-dark-4)" />
                     <Text size="xs" c="dimmed">3 languages</Text>
                   </Group>
                 </Group>
@@ -114,7 +114,7 @@ export default function Landing() {
                   src={landingHeroWhite}
                   alt="AI Voice Network"
                   radius="md"
-                  style={{ mixBlendMode: 'multiply' }}
+                  style={{ mixBlendMode: 'multiply', filter: 'grayscale(100%)' }}
                 />
               </div>
             </SimpleGrid>
@@ -125,7 +125,7 @@ export default function Landing() {
         <div id="how-it-works" style={{ backgroundColor: 'var(--mantine-color-gray-0)', padding: '80px 0' }}>
           <Container size="xl">
             <Stack align="center" mb={40}>
-              <Badge variant="light" color="blue">Step by Step</Badge>
+              <Badge variant="light" color="dark">Step by Step</Badge>
               <Title order={2} ta="center">How It Works</Title>
               <Text c="dimmed" ta="center" maw={600}>
                 The entire evaluation is automated. You just read sentences — the system handles
@@ -136,7 +136,7 @@ export default function Landing() {
             <SimpleGrid cols={{ base: 1, sm: 2, md: 5 }} spacing="lg">
               {steps.map((step) => (
                 <Paper key={step.title} p="lg" radius="md" withBorder shadow="sm" ta="center">
-                  <ThemeIcon size={48} radius="xl" mb="md" variant="light" color="grape">
+                  <ThemeIcon size={48} radius="xl" mb="md">
                     <step.icon size={24} />
                   </ThemeIcon>
                   <Text fw={600} mb="xs">{step.title}</Text>
@@ -150,7 +150,7 @@ export default function Landing() {
         {/* ─── SUPPORTED LANGUAGES ─── */}
         <Container size="xl" py={80}>
           <Stack align="center" mb={40}>
-            <Badge variant="light" color="grape">Multilingual</Badge>
+            <Badge variant="light" color="dark">Multilingual</Badge>
             <Title order={2} ta="center">Supported Languages</Title>
             <Text c="dimmed" ta="center" maw={600}>
               Our SLI model currently supports three languages with distinct phonetic characteristics,
@@ -166,7 +166,7 @@ export default function Landing() {
                     <Text fw={700} size="lg">{lang.name}</Text>
                     <Text c="dimmed" size="sm">{lang.script}</Text>
                   </div>
-                  <Badge variant="light" color="blue">{lang.speakers} speakers</Badge>
+                  <Badge variant="light" color="gray">{lang.speakers} speakers</Badge>
                 </Group>
                 <Text c="dimmed" size="sm">{lang.desc}</Text>
               </Paper>
@@ -179,13 +179,13 @@ export default function Landing() {
           <Container size="xl">
             <SimpleGrid cols={{ base: 1, md: 2 }} spacing="xl" align="center">
               <div>
-                <Badge variant="light" color="blue" mb="md">For Researchers</Badge>
+                <Badge variant="light" color="dark" mb="md">For Researchers</Badge>
                 <Title order={2} mb="md">Comprehensive Evaluation Reports</Title>
                 <Text c="dimmed" mb="lg">
                   Each speaker session generates detailed analytics that researchers can use to
                   study language identification performance across demographics, dialects, and conditions.
                 </Text>
-                <List spacing="sm" size="sm" c="dimmed" icon={<IconDeviceAnalytics size={16} color="var(--mantine-color-grape-6)" />}>
+                <List spacing="sm" size="sm" c="dimmed" icon={<IconDeviceAnalytics size={16} color="var(--mantine-color-dark-4)" />}>
                   <List.Item>Overall accuracy, precision, recall, and F1-score per language</List.Item>
                   <List.Item>Confusion matrix and language transition analysis</List.Item>
                   <List.Item>Confidence distribution and error categorization</List.Item>

@@ -11,19 +11,19 @@ import Dashboard from './pages/Dashboard';
 import Record from './pages/Record';
 
 const theme = createTheme({
-  primaryColor: 'indigo',
+  primaryColor: 'dark',
   defaultRadius: 'md',
   components: {
     Button: {
       defaultProps: {
-        variant: 'gradient',
-        gradient: { from: 'blue.7', to: 'grape.7', deg: 45 },
+        variant: 'filled',
+        color: 'dark',
       },
     },
     ThemeIcon: {
       defaultProps: {
-        variant: 'gradient',
-        gradient: { from: 'blue.7', to: 'grape.7', deg: 45 },
+        variant: 'light',
+        color: 'dark',
       },
     }
   },
