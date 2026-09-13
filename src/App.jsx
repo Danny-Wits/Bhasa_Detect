@@ -8,6 +8,7 @@ import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Onboarding from './pages/Onboarding';
 import Dashboard from './pages/Dashboard';
+import Record from './pages/Record';
 
 const theme = createTheme({
   primaryColor: 'indigo',
@@ -40,6 +41,7 @@ function App() {
             <Route element={<AuthGuard />}>
               <Route path="/onboarding" element={<Onboarding />} />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/record" element={<Record />} />
             </Route>
             
             <Route path="*" element={<Navigate to="/" replace />} />

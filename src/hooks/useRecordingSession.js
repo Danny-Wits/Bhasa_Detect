@@ -1,0 +1,134 @@
+import { useState, useCallback } from 'react';
+
+const SENTENCES = {
+  English: [
+    "The quick brown fox jumps over the lazy dog.",
+    "Artificial intelligence is transforming how we communicate.",
+    "Please read this sentence clearly into the microphone.",
+    "Technology bridges the gap between different cultures.",
+    "Speech recognition helps build a more inclusive world.",
+    "Every voice matters in the age of machine learning.",
+    "Language is the most powerful tool humanity has ever created.",
+    "Digital assistants rely on diverse voice data to improve.",
+  ],
+  Hindi: [
+    "यह एक बहुत ही सुंदर दिन है।",
+    "कृत्रिम बुद्धिमत्ता भविष्य को बदल रही है।",
+    "कृपया इस वाक्य को स्पष्ट रूप से पढ़ें।",
+    "प्रौद्योगिकी विभिन्न संस्कृतियों को जोड़ती है।",
+    "भाषा पहचान तकनीक दिन-ब-दिन बेहतर हो रही है।",
+    "हर आवाज़ मशीन लर्निंग के युग में महत्वपूर्ण है।",
+    "भाषा मानवता का सबसे शक्तिशाली उपकरण है।",
+    "डिजिटल सहायक विविध आवाज़ डेटा पर निर्भर करते हैं।",
+  ],
+  Dogri: [
+    "अज्ज दा दिन बड़ा सुहाना ऐ।",
+    "तुसें दा केह् नां ऐ?",
+    "मिगी तुंदे कन्नै गल्ल करियै बड़ा शैल लग्गा।",
+    "इस वाक्य गी ध्यान कन्नै पढ़ो।",
+    "हर बंदे दी आवाज़ दा मतलब ऐ।",
+    "भाषा इक बड्डी ताकत ऐ।",
+    "तकनीक सारेआं गी जोड़दी ऐ।",
+    "नमस्ते, तुसीं कुस हाल ओ?",
+  ],
+};
+
+const TOTAL_SENTENCES = 5;
+
+export function useRecordingSession(languages = []) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [sessionSentences, setSessionSentences] = useState([]);
+  const [results, setResults] = useState([]);
+  const [isPredicting, setIsPredicting] = useState(false);
+  const [currentPrediction, setCurrentPrediction] = useState(null);
+  const [isSessionReady, setIsSessionReady] = useState(false);
+
+  const initSession = useCallback(() => {
+    if (!languages || languages.length === 0) return;
+
+    const sentences = [];
+    for (let i = 0; i < TOTAL_SENTENCES; i++) {
+      const lang = languages[i % languages.length];
+      const pool = SENTENCES[lang] || SENTENCES.English;
+      const line = pool[Math.floor(Math.random() * pool.length)];
+      sentences.push({ language: lang, text: line, id: i + 1 });
+    }
+
+    setSessionSentences(sentences);
+    setCurrentIndex(0);
+    setResults([]);
+    setCurrentPrediction(null);
+    setIsSessionReady(true);
+  }, [languages]);
+
+  const currentSentence = sessionSentences[currentIndex] || null;
+  const isComplete = currentIndex >= TOTAL_SENTENCES && results.length === TOTAL_SENTENCES;
+
+  const submitAudio = async () => {
+    setIsPredicting(true);
+    setCurrentPrediction(null);
+
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        setIsPredicting(false);
+        const isCorrect = Math.random() > 0.15;
+        const expectedLang = currentSentence.language;
+        const predictedLang = isCorrect ? expectedLang : languages[Math.floor(Math.random() * languages.length)];
+        const confidence = parseFloat((Math.random() * (0.99 - 0.70) + 0.70).toFixed(2));
+        const duration = parseFloat((Math.random() * (5.0 - 1.5) + 1.5).toFixed(1));
+
+        const result = {
+          sentenceId: currentSentence.id,
+          sentence: currentSentence.text,
+          expectedLanguage: expectedLang,
+          predictedLanguage: predictedLang,
+          confidence,
+          isCorrect: predictedLang === expectedLang,
+          duration,
+        };
+
+        setCurrentPrediction(result);
+        setResults((prev) => {
+          const updated = [...prev];
+          updated[currentIndex] = result;
+          return updated;
+        });
+        resolve(result);
+      }, 2000);
+    });
+  };
+
+  const goNext = () => {
+    if (currentIndex < TOTAL_SENTENCES - 1) {
+      setCurrentIndex((prev) => prev + 1);
+      setCurrentPrediction(null);
+    }
+  };
+
+  const goBack = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex((prev) => prev - 1);
+      setCurrentPrediction(results[currentIndex - 1] || null);
+    }
+  };
+
+  const isLastSentence = currentIndex === TOTAL_SENTENCES - 1;
+  const allDone = results.filter(Boolean).length === TOTAL_SENTENCES;
+
+  return {
+    initSession,
+    isSessionReady,
+    currentSentence,
+    currentIndex,
+    totalSentences: TOTAL_SENTENCES,
+    isPredicting,
+    currentPrediction,
+    results,
+    submitAudio,
+    goNext,
+    goBack,
+    isLastSentence,
+    allDone,
+    isComplete,
+  };
+}
