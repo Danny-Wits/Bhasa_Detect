@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
   AppShell, Container, Title, Text, Button, Paper, Group,
   Badge, Stack, Loader, Center, RingProgress, Progress, Stepper,
-  ThemeIcon, Alert, Divider, Table, Modal, SimpleGrid
+  ThemeIcon, Alert, Divider, Table, Modal, SimpleGrid, Box
 } from '@mantine/core';
 import {
   IconBrain, IconArrowLeft, IconArrowRight, IconCheck,
