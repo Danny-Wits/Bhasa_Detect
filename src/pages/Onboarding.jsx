@@ -3,8 +3,7 @@ import { TextInput, Select, Button, Container, Title, Paper, Text, Image, Simple
 import { useForm } from '@mantine/form';
 import { useProfile } from '../hooks/useProfile';
 import { useNavigate } from 'react-router-dom';
-import { IconLanguage } from '@tabler/icons-react';
-import onboardingArt from '../assets/onboarding_art.jpg';
+import { IconLanguage, IconUsersGroup } from '@tabler/icons-react';
 import { indianStatesAndDistricts } from '../data/indiaLocations';
 
 const AGE_GROUPS = ['10-20', '20-30', '30-40', '40-50', '50-60', '60-70', '70-80', '80-90', '90-100'];
@@ -158,8 +157,11 @@ export default function Onboarding() {
             </form>
           </div>
 
-          <div style={{ padding: '2.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
-            <Image src={onboardingArt} alt="Multilingual collaboration" radius="md" style={{ filter: 'grayscale(100%)' }} />
+          <div style={{ padding: '2.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
+            <IconUsersGroup size={160} stroke={1} color="var(--mantine-color-gray-3)" />
+            <Text c="dimmed" mt="xl" ta="center" size="sm" style={{ maxWidth: 300 }}>
+              Join thousands of contributors helping to build the future of localized AI models.
+            </Text>
           </div>
 
         </SimpleGrid>

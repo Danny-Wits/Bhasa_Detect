@@ -6,12 +6,12 @@ import {
 import {
   IconMicrophone, IconBrain, IconGlobe, IconArrowRight,
   IconShieldCheck, IconChartBar, IconLanguage, IconDeviceAnalytics,
-  IconNumber1, IconNumber2, IconNumber3, IconNumber4, IconNumber5, IconChevronDown
+  IconNumber1, IconNumber2, IconNumber3, IconNumber4, IconNumber5, IconChevronDown,
+  IconWaveSine
 } from '@tabler/icons-react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../lib/authContext';
 import Logo from '../components/Logo';
-import landingHeroWhite from '../assets/landing_hero_white_nobg.png';
 
 export default function Landing() {
   const navigate = useNavigate();
@@ -111,12 +111,9 @@ export default function Landing() {
                 </Group>
               </Stack>
 
-              <div style={{ position: 'relative' }}>
-                <Image
-                  src={landingHeroWhite}
-                  alt="AI Voice Network"
-                  style={{ mixBlendMode: 'multiply', filter: 'grayscale(100%) contrast(200%) brightness(0.7)', opacity: 1 }}
-                />
+              <div style={{ position: 'relative', height: '350px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <IconMicrophone size={180} stroke={1} color="#1a1b1e" style={{ position: 'absolute', zIndex: 2 }} />
+                <IconWaveSine size={300} stroke={0.5} color="var(--mantine-color-gray-4)" style={{ position: 'absolute', zIndex: 1, transform: 'rotate(-15deg)' }} />
               </div>
             </SimpleGrid>
           </Container>

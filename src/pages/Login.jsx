@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { TextInput, Button, Container, Title, Paper, Text, Image, Stack, SimpleGrid, ThemeIcon } from '@mantine/core';
+import { TextInput, Button, Container, Title, Paper, Text, Stack, SimpleGrid, ThemeIcon, Center } from '@mantine/core';
 import { useAuth } from '../lib/authContext';
 import { useNavigate } from 'react-router-dom';
-import { IconMicrophone } from '@tabler/icons-react';
-import loginArt from '../assets/login_art.jpg';
+import { IconMicrophone, IconBrain } from '@tabler/icons-react';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -29,7 +28,9 @@ export default function Login() {
         <SimpleGrid cols={{ base: 1, md: 2 }} spacing={0}>
           {/* Left Side: Art & Info */}
           <div style={{ backgroundColor: '#1a1b1e', padding: '2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <Image src={loginArt} alt="AI Audio Analysis" radius="md" mb="xl" style={{ filter: 'grayscale(100%)' }} />
+            <Center mb="xl">
+              <IconBrain size={120} stroke={1} color="var(--mantine-color-gray-4)" />
+            </Center>
             <Title order={2} c="white" mb="sm">Voice the Future</Title>
             <Text c="gray.5" size="sm">
               Join Bhasa Detect to help train the next generation of multilingual AI models. Your voice is the key to breaking language barriers.
