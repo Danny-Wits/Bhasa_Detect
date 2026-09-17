@@ -4,7 +4,7 @@ import {
   SimpleGrid, ThemeIcon, Stack, Image, Paper, Badge, Center, Divider, List, Box, ActionIcon
 } from '@mantine/core';
 import {
-  IconMicrophone, IconBrain, IconGlobe, IconArrowRight,
+  IconBrain, IconGlobe, IconArrowRight,
   IconShieldCheck, IconChartBar, IconLanguage, IconDeviceAnalytics,
   IconNumber1, IconNumber2, IconNumber3, IconNumber4, IconNumber5, IconChevronDown,
   IconWaveSine
@@ -95,10 +95,22 @@ export default function Landing() {
                 </Group>
               </Stack>
 
-              <div style={{ position: 'relative', height: '350px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <IconMicrophone size={180} stroke={1} color="#1a1b1e" style={{ position: 'absolute', zIndex: 5, background: 'var(--mantine-color-gray-0)', borderRadius: '50%', padding: '10px' }} />
+              <Box 
+                onClick={() => navigate(user ? '/record' : '/login')}
+                onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                style={{ 
+                  position: 'relative', 
+                  height: '350px', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  transition: 'transform 0.2s ease'
+                }}
+              >
                 <HeroWaveform />
-              </div>
+              </Box>
             </SimpleGrid>
           </Container>
 
