@@ -95,8 +95,10 @@ export default function Landing() {
               </Stack>
 
               <div style={{ position: 'relative', height: '350px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <IconMicrophone size={180} stroke={1} color="#1a1b1e" style={{ position: 'absolute', zIndex: 2 }} />
-                <IconWaveSine size={300} stroke={0.5} color="var(--mantine-color-gray-4)" style={{ position: 'absolute', zIndex: 1, transform: 'rotate(-15deg)' }} />
+                <IconMicrophone size={180} stroke={1} color="#1a1b1e" style={{ position: 'absolute', zIndex: 5 }} />
+                <IconWaveSine size={280} stroke={0.4} color="var(--mantine-color-gray-5)" className="hero-wave-1" />
+                <IconWaveSine size={350} stroke={0.3} color="var(--mantine-color-gray-4)" className="hero-wave-2" />
+                <IconWaveSine size={420} stroke={0.2} color="var(--mantine-color-gray-3)" className="hero-wave-3" />
               </div>
             </SimpleGrid>
           </Container>
