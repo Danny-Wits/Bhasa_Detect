@@ -75,7 +75,7 @@ export default function Dashboard() {
                     </Text>
                     <Text size="sm" c="dimmed" mt="xs">
                       <strong>Languages:</strong> {profile?.languages?.join(', ')} &nbsp;|&nbsp;
-                      <strong>Place:</strong> {profile?.place || '—'}
+                      <strong>Location:</strong> {profile?.district ? `${profile.district}, ${profile.state}` : '—'}
                     </Text>
                   </div>
                   <Button rightSection={<IconPlayerPlay size={16} />} onClick={() => navigate('/record')}>
