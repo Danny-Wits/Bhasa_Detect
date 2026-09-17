@@ -12,6 +12,7 @@ import {
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../lib/authContext';
 import Logo from '../components/Logo';
+import SiteHeader from '../components/SiteHeader';
 
 export default function Landing() {
   const navigate = useNavigate();
@@ -34,25 +35,7 @@ export default function Landing() {
   return (
     <AppShell header={{ height: 60 }} padding="0">
       <AppShell.Header>
-        <Container size="xl" h="100%">
-          <Group h="100%" justify="space-between">
-            <Group gap="sm" component={Link} to="/" style={{ textDecoration: 'none' }}>
-              <Logo size={32} />
-              <Text fw={700} size="lg" c="dark">
-                Bhasa Detect
-              </Text>
-            </Group>
-            {user ? (
-              <Button variant="light" onClick={() => navigate('/dashboard')}>
-                Go to Dashboard
-              </Button>
-            ) : (
-              <Button variant="light" onClick={() => navigate('/login')}>
-                Sign In
-              </Button>
-            )}
-          </Group>
-        </Container>
+        <SiteHeader />
       </AppShell.Header>
 
       <AppShell.Main>

@@ -16,6 +16,8 @@ import { useProfile } from '../hooks/useProfile';
 import { useDashboardData } from '../hooks/useDashboardData';
 import Logo from '../components/Logo';
 
+import SiteHeader from '../components/SiteHeader';
+
 function StatCard({ icon: Icon, label, value, description }) {
   return (
     <Paper withBorder p="md" radius="md">
@@ -40,18 +42,7 @@ export default function Dashboard() {
   return (
     <AppShell header={{ height: 60 }} padding="md">
       <AppShell.Header>
-        <Group h="100%" px="md" justify="space-between">
-          <Group gap="sm" component={Link} to="/" style={{ textDecoration: 'none' }}>
-            <Logo size={32} />
-            <Text fw={700} size="lg" c="dark">Bhasa Detect</Text>
-          </Group>
-          <Group gap="sm">
-            <Badge variant="light" color="gray">{profile?.name}</Badge>
-            <Button variant="subtle" color="gray" onClick={logout} rightSection={<IconLogout size={16} />}>
-              Logout
-            </Button>
-          </Group>
-        </Group>
+        <SiteHeader />
       </AppShell.Header>
 
       <AppShell.Main>

@@ -15,6 +15,7 @@ import { useProfile } from '../hooks/useProfile';
 import { useRecordingSession } from '../hooks/useRecordingSession';
 import AudioRecorder from '../components/AudioRecorder';
 import Logo from '../components/Logo';
+import SiteHeader from '../components/SiteHeader';
 
 export default function Record() {
   const navigate = useNavigate();
@@ -48,13 +49,7 @@ export default function Record() {
     return (
       <AppShell header={{ height: 60 }} padding="md">
         <AppShell.Header>
-          <Group h="100%" px="md" justify="space-between">
-            <Group gap="sm" component={Link} to="/" style={{ textDecoration: 'none' }}>
-              <Logo size={32} />
-              <Text fw={700} size="lg" c="dark">Bhasa Detect</Text>
-            </Group>
-            <Button variant="subtle" color="gray" onClick={logout}>Logout</Button>
-          </Group>
+          <SiteHeader />
         </AppShell.Header>
 
         <AppShell.Main>
@@ -117,13 +112,7 @@ export default function Record() {
     return (
       <AppShell header={{ height: 60 }} padding="md">
         <AppShell.Header>
-          <Group h="100%" px="md" justify="space-between">
-            <Group gap="sm" component={Link} to="/" style={{ textDecoration: 'none' }}>
-              <Logo size={32} />
-              <Text fw={700} size="lg" c="dark">Bhasa Detect</Text>
-            </Group>
-            <Button variant="subtle" color="gray" onClick={logout}>Logout</Button>
-          </Group>
+          <SiteHeader />
         </AppShell.Header>
 
         <AppShell.Main>
@@ -207,16 +196,7 @@ export default function Record() {
   return (
     <AppShell header={{ height: 60 }} padding="md">
       <AppShell.Header>
-        <Group h="100%" px="md" justify="space-between">
-          <Group gap="sm" component={Link} to="/" style={{ textDecoration: 'none' }}>
-            <Logo size={32} />
-            <Text fw={700} size="lg" c="dark">Bhasa Detect</Text>
-          </Group>
-          <Group gap="sm">
-            <Badge variant="light" color="gray">{profile?.name}</Badge>
-            <Button variant="subtle" color="gray" onClick={logout}>Logout</Button>
-          </Group>
-        </Group>
+        <SiteHeader />
       </AppShell.Header>
 
       <AppShell.Main>
