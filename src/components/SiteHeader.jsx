@@ -24,8 +24,8 @@ export default function SiteHeader() {
     <>
       <Group h="100%" px="md" justify="space-between" style={{ maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
         <Group gap="sm" component={Link} to="/" style={{ textDecoration: 'none' }} onClick={close}>
-          <Logo size={32} />
-          <Text fw={700} size="lg" c="dark" visibleFrom="xs">Bhasa Detect</Text>
+          <Logo size={28} />
+          <Text fw={700} size="md" c="dark">Bhasa Detect</Text>
         </Group>
 
         {/* Desktop Links */}

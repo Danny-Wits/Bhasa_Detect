@@ -13,6 +13,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../lib/authContext';
 import Logo from '../components/Logo';
 import SiteHeader from '../components/SiteHeader';
+import HeroWaveform from '../components/HeroWaveform';
 
 export default function Landing() {
   const navigate = useNavigate();
@@ -95,10 +96,8 @@ export default function Landing() {
               </Stack>
 
               <div style={{ position: 'relative', height: '350px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <IconMicrophone size={180} stroke={1} color="#1a1b1e" style={{ position: 'absolute', zIndex: 5 }} />
-                <IconWaveSine size={280} stroke={0.4} color="var(--mantine-color-gray-5)" className="hero-wave-1" />
-                <IconWaveSine size={350} stroke={0.3} color="var(--mantine-color-gray-4)" className="hero-wave-2" />
-                <IconWaveSine size={420} stroke={0.2} color="var(--mantine-color-gray-3)" className="hero-wave-3" />
+                <IconMicrophone size={180} stroke={1} color="#1a1b1e" style={{ position: 'absolute', zIndex: 5, background: 'var(--mantine-color-gray-0)', borderRadius: '50%', padding: '10px' }} />
+                <HeroWaveform />
               </div>
             </SimpleGrid>
           </Container>
