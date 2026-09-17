@@ -77,6 +77,38 @@ export function useRecordingSession(languages = []) {
         const confidence = parseFloat((Math.random() * (0.99 - 0.70) + 0.70).toFixed(2));
         const duration = parseFloat((Math.random() * (5.0 - 1.5) + 1.5).toFixed(1));
 
+        const techSpecs = {
+          spectral: { 
+            centroid: (Math.random() * 2000 + 1000).toFixed(2) + ' Hz', 
+            bandwidth: (Math.random() * 1000 + 1500).toFixed(2) + ' Hz', 
+            rolloff: (Math.random() * 3000 + 2000).toFixed(2) + ' Hz',
+            contrast: (Math.random() * 10 + 10).toFixed(2) + ' dB',
+            flux: (Math.random() * 1.5).toFixed(3)
+          },
+          prosodic: { 
+            pitch: (Math.random() * 150 + 100).toFixed(1) + ' Hz', 
+            duration: duration + ' s',
+            speechRate: (Math.random() * 3 + 2).toFixed(1) + ' syllables/s'
+          },
+          formants: { 
+            f1: (Math.random() * 400 + 300).toFixed(0) + ' Hz', 
+            f2: (Math.random() * 1000 + 1000).toFixed(0) + ' Hz',
+            f3: (Math.random() * 500 + 2200).toFixed(0) + ' Hz',
+            f4: (Math.random() * 500 + 3200).toFixed(0) + ' Hz'
+          },
+          timeDomain: { 
+            rms: (Math.random() * 0.05 + 0.01).toFixed(4), 
+            zcr: (Math.random() * 0.05 + 0.02).toFixed(4),
+            energy: (Math.random() * 100 + 50).toFixed(1)
+          },
+          voiceQuality: { 
+            jitter: (Math.random() * 1.5 + 0.1).toFixed(2) + '%', 
+            shimmer: (Math.random() * 3 + 1).toFixed(2) + '%', 
+            hnr: (Math.random() * 15 + 10).toFixed(1) + ' dB', 
+            cpp: (Math.random() * 10 + 5).toFixed(1) + ' dB' 
+          }
+        };
+
         const result = {
           sentenceId: currentSentence.id,
           sentence: currentSentence.text,
@@ -85,6 +117,7 @@ export function useRecordingSession(languages = []) {
           confidence,
           isCorrect: predictedLang === expectedLang,
           duration,
+          techSpecs,
         };
 
         setCurrentPrediction(result);
@@ -98,10 +131,19 @@ export function useRecordingSession(languages = []) {
     });
   };
 
+  const reRecord = () => {
+    setCurrentPrediction(null);
+    setResults((prev) => {
+      const updated = [...prev];
+      updated[currentIndex] = null;
+      return updated;
+    });
+  };
+
   const goNext = () => {
     if (currentIndex < TOTAL_SENTENCES - 1) {
       setCurrentIndex((prev) => prev + 1);
-      setCurrentPrediction(null);
+      setCurrentPrediction(results[currentIndex + 1] || null);
     }
   };
 
@@ -125,6 +167,7 @@ export function useRecordingSession(languages = []) {
     currentPrediction,
     results,
     submitAudio,
+    reRecord,
     goNext,
     goBack,
     isLastSentence,

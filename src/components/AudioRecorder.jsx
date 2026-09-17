@@ -21,7 +21,8 @@ export default function AudioRecorder({ onRecordingComplete, disabled }) {
       barWidth: 4,
       barGap: 3,
       barRadius: 4,
-      height: 60,
+      height: 120, // Taller bars
+      barHeight: 1.5, // Exaggerate the height multipliers
       cursorWidth: 0,
       interact: false,
       normalize: true,
@@ -95,12 +96,12 @@ export default function AudioRecorder({ onRecordingComplete, disabled }) {
       <Box 
         ref={containerRef} 
         w={280} 
-        h={60} 
+        h={120} 
         style={{ 
           opacity: disabled ? 0.3 : 1,
           transition: 'opacity 0.2s ease',
           // Draw a flat dim line when not recording to indicate the waveform area
-          background: !isRecording ? 'linear-gradient(transparent 28px, #ced4da 28px, #ced4da 32px, transparent 32px)' : 'none',
+          background: !isRecording ? 'linear-gradient(transparent 58px, #ced4da 58px, #ced4da 62px, transparent 62px)' : 'none',
           borderRadius: '4px'
         }} 
       />

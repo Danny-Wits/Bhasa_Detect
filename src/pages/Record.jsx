@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   AppShell, Container, Title, Text, Button, Paper, Group,
   Badge, Stack, Loader, Center, RingProgress, Progress, Stepper,
-  ThemeIcon, Alert, Divider, Table
+  ThemeIcon, Alert, Divider, Table, Modal, SimpleGrid
 } from '@mantine/core';
 import {
   IconBrain, IconArrowLeft, IconArrowRight, IconCheck,
-  IconMicrophone, IconInfoCircle, IconPlayerPlay
+  IconMicrophone, IconInfoCircle, IconPlayerPlay, IconReload, IconListDetails
 } from '@tabler/icons-react';
 import { useNavigate, Link } from 'react-router-dom';
 
@@ -20,6 +20,9 @@ export default function Record() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const { profile } = useProfile();
+  
+  const [techSpecModalOpen, setTechSpecModalOpen] = useState(false);
+
   const {
     initSession,
     isSessionReady,
@@ -30,6 +33,7 @@ export default function Record() {
     currentPrediction,
     results,
     submitAudio,
+    reRecord,
     goNext,
     goBack,
     isLastSentence,
@@ -308,11 +312,17 @@ export default function Record() {
               <Group grow>
                 <Button
                   variant="default"
-                  leftSection={<IconArrowLeft size={16} />}
-                  onClick={goBack}
-                  disabled={currentIndex === 0}
+                  leftSection={<IconReload size={16} />}
+                  onClick={reRecord}
                 >
-                  Go Back
+                  Re-record
+                </Button>
+                <Button
+                  variant="default"
+                  leftSection={<IconListDetails size={16} />}
+                  onClick={() => setTechSpecModalOpen(true)}
+                >
+                  Tech Specs
                 </Button>
                 {isLastSentence ? (
                   <Button
@@ -334,6 +344,77 @@ export default function Record() {
             )}
           </Stack>
         </Container>
+
+        {/* Technical Specification Modal */}
+        <Modal 
+          opened={techSpecModalOpen} 
+          onClose={() => setTechSpecModalOpen(false)} 
+          title={<Text fw={700} size="lg">Technical Specifications</Text>}
+          size="lg"
+          centered
+        >
+          {currentPrediction?.techSpecs ? (
+            <Stack gap="md">
+              <Text size="sm" c="dimmed">
+                The following acoustic and phonetic features were extracted from this audio clip during processing.
+              </Text>
+              
+              <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="lg">
+                <Box>
+                  <Badge color="dark" mb="xs">Spectral</Badge>
+                  <Table size="sm" withTableBorder striped>
+                    <Table.Tbody>
+                      <Table.Tr><Table.Td>Centroid</Table.Td><Table.Td fw={500}>{currentPrediction.techSpecs.spectral.centroid}</Table.Td></Table.Tr>
+                      <Table.Tr><Table.Td>Bandwidth</Table.Td><Table.Td fw={500}>{currentPrediction.techSpecs.spectral.bandwidth}</Table.Td></Table.Tr>
+                      <Table.Tr><Table.Td>Roll-off</Table.Td><Table.Td fw={500}>{currentPrediction.techSpecs.spectral.rolloff}</Table.Td></Table.Tr>
+                      <Table.Tr><Table.Td>Contrast</Table.Td><Table.Td fw={500}>{currentPrediction.techSpecs.spectral.contrast}</Table.Td></Table.Tr>
+                      <Table.Tr><Table.Td>Flux</Table.Td><Table.Td fw={500}>{currentPrediction.techSpecs.spectral.flux}</Table.Td></Table.Tr>
+                    </Table.Tbody>
+                  </Table>
+                </Box>
+                
+                <Box>
+                  <Badge color="dark" mb="xs">Prosodic & Time Domain</Badge>
+                  <Table size="sm" withTableBorder striped>
+                    <Table.Tbody>
+                      <Table.Tr><Table.Td>Pitch (F0)</Table.Td><Table.Td fw={500}>{currentPrediction.techSpecs.prosodic.pitch}</Table.Td></Table.Tr>
+                      <Table.Tr><Table.Td>Speech Rate</Table.Td><Table.Td fw={500}>{currentPrediction.techSpecs.prosodic.speechRate}</Table.Td></Table.Tr>
+                      <Table.Tr><Table.Td>Duration</Table.Td><Table.Td fw={500}>{currentPrediction.techSpecs.prosodic.duration}</Table.Td></Table.Tr>
+                      <Table.Tr><Table.Td>RMS Energy</Table.Td><Table.Td fw={500}>{currentPrediction.techSpecs.timeDomain.rms}</Table.Td></Table.Tr>
+                      <Table.Tr><Table.Td>ZCR</Table.Td><Table.Td fw={500}>{currentPrediction.techSpecs.timeDomain.zcr}</Table.Td></Table.Tr>
+                    </Table.Tbody>
+                  </Table>
+                </Box>
+                
+                <Box>
+                  <Badge color="dark" mb="xs">Voice Quality</Badge>
+                  <Table size="sm" withTableBorder striped>
+                    <Table.Tbody>
+                      <Table.Tr><Table.Td>Jitter</Table.Td><Table.Td fw={500}>{currentPrediction.techSpecs.voiceQuality.jitter}</Table.Td></Table.Tr>
+                      <Table.Tr><Table.Td>Shimmer</Table.Td><Table.Td fw={500}>{currentPrediction.techSpecs.voiceQuality.shimmer}</Table.Td></Table.Tr>
+                      <Table.Tr><Table.Td>HNR</Table.Td><Table.Td fw={500}>{currentPrediction.techSpecs.voiceQuality.hnr}</Table.Td></Table.Tr>
+                      <Table.Tr><Table.Td>CPP</Table.Td><Table.Td fw={500}>{currentPrediction.techSpecs.voiceQuality.cpp}</Table.Td></Table.Tr>
+                    </Table.Tbody>
+                  </Table>
+                </Box>
+                
+                <Box>
+                  <Badge color="dark" mb="xs">Formants</Badge>
+                  <Table size="sm" withTableBorder striped>
+                    <Table.Tbody>
+                      <Table.Tr><Table.Td>F1</Table.Td><Table.Td fw={500}>{currentPrediction.techSpecs.formants.f1}</Table.Td></Table.Tr>
+                      <Table.Tr><Table.Td>F2</Table.Td><Table.Td fw={500}>{currentPrediction.techSpecs.formants.f2}</Table.Td></Table.Tr>
+                      <Table.Tr><Table.Td>F3</Table.Td><Table.Td fw={500}>{currentPrediction.techSpecs.formants.f3}</Table.Td></Table.Tr>
+                      <Table.Tr><Table.Td>F4</Table.Td><Table.Td fw={500}>{currentPrediction.techSpecs.formants.f4}</Table.Td></Table.Tr>
+                    </Table.Tbody>
+                  </Table>
+                </Box>
+              </SimpleGrid>
+            </Stack>
+          ) : (
+            <Center py="xl"><Loader color="dark" /></Center>
+          )}
+        </Modal>
       </AppShell.Main>
     </AppShell>
   );
