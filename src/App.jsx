@@ -33,7 +33,7 @@ const theme = createTheme({
 
 function App() {
   return (
-    <MantineProvider theme={theme} defaultColorScheme="light">
+    <MantineProvider theme={theme} forceColorScheme="light">
       <AuthProvider>
         <BrowserRouter>
           <Routes>

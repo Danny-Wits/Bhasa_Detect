@@ -7,7 +7,7 @@ import Logo from './Logo';
 import { useAuth } from '../lib/authContext';
 import { useProfile } from '../hooks/useProfile';
 
-export default function SiteHeader() {
+export default function SiteHeader({ hideDashboard = false }) {
   const [opened, { toggle, close }] = useDisclosure(false);
   const { user, logout } = useAuth();
   const { profile } = useProfile();
@@ -31,7 +31,9 @@ export default function SiteHeader() {
         {/* Desktop Links */}
         {user ? (
           <Group gap="sm" visibleFrom="sm">
-            <Button variant={location.pathname === '/dashboard' ? 'filled' : 'subtle'} color="dark" component={Link} to="/dashboard">Dashboard</Button>
+            {!hideDashboard && (
+              <Button variant={location.pathname === '/dashboard' ? 'filled' : 'subtle'} color="dark" component={Link} to="/dashboard">Dashboard</Button>
+            )}
             <Button variant={location.pathname === '/record' ? 'filled' : 'subtle'} color="dark" component={Link} to="/record">Record</Button>
             <Badge variant="light" color="gray" ml="md" style={{ textTransform: 'none' }}>{profile?.name || user}</Badge>
             <ActionIcon variant="subtle" color="gray" onClick={handleLogout} title="Logout" ml="xs">
@@ -54,7 +56,9 @@ export default function SiteHeader() {
           {user ? (
             <>
               <Text size="sm" c="dimmed" mb="xs">Logged in as {profile?.name || user}</Text>
-              <Button variant={location.pathname === '/dashboard' ? 'filled' : 'light'} color="dark" component={Link} to="/dashboard" onClick={close} leftSection={<IconDashboard size={18}/>}>Dashboard</Button>
+              {!hideDashboard && (
+                <Button variant={location.pathname === '/dashboard' ? 'filled' : 'light'} color="dark" component={Link} to="/dashboard" onClick={close} leftSection={<IconDashboard size={18}/>}>Dashboard</Button>
+              )}
               <Button variant={location.pathname === '/record' ? 'filled' : 'light'} color="dark" component={Link} to="/record" onClick={close} leftSection={<IconMicrophone size={18}/>}>Record</Button>
               <Button variant="subtle" color="gray" mt="xl" onClick={handleLogout} leftSection={<IconLogout size={18}/>}>Logout</Button>
             </>

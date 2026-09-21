@@ -64,7 +64,7 @@ export function useRecordingSession(languages = []) {
   const currentSentence = sessionSentences[currentIndex] || null;
   const isComplete = currentIndex >= TOTAL_SENTENCES && results.length === TOTAL_SENTENCES;
 
-  const submitAudio = async () => {
+  const submitAudio = async (blob) => {
     setIsPredicting(true);
     setCurrentPrediction(null);
 
@@ -77,7 +77,13 @@ export function useRecordingSession(languages = []) {
         const confidence = parseFloat((Math.random() * (0.99 - 0.70) + 0.70).toFixed(2));
         const duration = parseFloat((Math.random() * (5.0 - 1.5) + 1.5).toFixed(1));
 
+        let blobUrl = null;
+        if (blob) {
+          blobUrl = URL.createObjectURL(blob);
+        }
+
         const techSpecs = {
+          blobUrl,
           spectral: { 
             centroid: (Math.random() * 2000 + 1000).toFixed(2) + ' Hz', 
             bandwidth: (Math.random() * 1000 + 1500).toFixed(2) + ' Hz', 

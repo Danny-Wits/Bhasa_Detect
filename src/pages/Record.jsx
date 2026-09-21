@@ -16,6 +16,7 @@ import { useRecordingSession } from '../hooks/useRecordingSession';
 import AudioRecorder from '../components/AudioRecorder';
 import Logo from '../components/Logo';
 import SiteHeader from '../components/SiteHeader';
+import SpectrogramViewer from '../components/SpectrogramViewer';
 
 export default function Record() {
   const navigate = useNavigate();
@@ -41,8 +42,8 @@ export default function Record() {
     allDone,
   } = useRecordingSession(profile?.languages);
 
-  const handleRecordingComplete = async () => {
-    await submitAudio();
+  const handleRecordingComplete = async (blob) => {
+    await submitAudio(blob);
   };
 
   if (!isSessionReady) {
@@ -196,7 +197,7 @@ export default function Record() {
   return (
     <AppShell header={{ height: 60 }} padding="md">
       <AppShell.Header>
-        <SiteHeader />
+        <SiteHeader hideDashboard={true} />
       </AppShell.Header>
 
       <AppShell.Main>
@@ -338,6 +339,10 @@ export default function Record() {
               <Text size="sm" c="dimmed">
                 The following acoustic and phonetic features were extracted from this audio clip during processing.
               </Text>
+
+              {currentPrediction.techSpecs.blobUrl && (
+                <SpectrogramViewer audioUrl={currentPrediction.techSpecs.blobUrl} />
+              )}
               
               <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="lg">
                 <Box>
