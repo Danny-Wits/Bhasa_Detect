@@ -2,6 +2,13 @@ body {
   background-color: #ffffff;
 }
 
+/* Make all wavesurfer canvases transparent so backgrounds show through */
+.hero-wrapper canvas,
+.hero-waveform-container canvas {
+  background: transparent !important;
+}
+
+
 .hero-wrapper {
   position: relative;
   overflow: hidden;

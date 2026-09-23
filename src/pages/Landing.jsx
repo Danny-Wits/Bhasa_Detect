@@ -215,11 +215,6 @@ export default function Landing() {
                   justifyContent: 'center',
                   cursor: 'pointer',
                   transition: 'transform 0.25s ease',
-                  background: 'rgba(255,255,255,0.6)',
-                  borderRadius: '20px',
-                  backdropFilter: 'blur(8px)',
-                  border: '1px solid rgba(99,102,241,0.12)',
-                  boxShadow: '0 8px 32px rgba(99,102,241,0.08)',
                 }}
               >
                 <HeroWaveform />

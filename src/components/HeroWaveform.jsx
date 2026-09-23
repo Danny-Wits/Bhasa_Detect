@@ -62,5 +62,18 @@ export default function HeroWaveform() {
     };
   }, []);
 
-  return <div ref={containerRef} style={{ width: '100%', maxWidth: '400px', position: 'absolute', zIndex: 1, opacity: 0.6 }} />;
+  return (
+    <div
+      ref={containerRef}
+      className="hero-waveform-container"
+      style={{
+        width: '100%',
+        maxWidth: '400px',
+        position: 'absolute',
+        zIndex: 1,
+        opacity: 0.75,
+        background: 'transparent',
+      }}
+    />
+  );
 }
