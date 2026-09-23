@@ -14,13 +14,13 @@ export default function HeroWaveform() {
     // Initialize WaveSurfer v7
     const wavesurfer = WaveSurfer.create({
       container: containerRef.current,
-      waveColor: 'var(--mantine-color-gray-4)',
-      progressColor: 'var(--mantine-color-gray-4)', // match color so cursor is invisible
+      waveColor: '#818cf8',       // indigo-400
+      progressColor: '#818cf8',
       barWidth: 4,
       barGap: 4,
       barRadius: 4,
-      height: 200,       // Increased base height from 120 to 200
-      barHeight: 1.5,   // Multiplier to exaggerate the peaks
+      height: 200,
+      barHeight: 1.5,
       cursorWidth: 0,
       interact: false,
     });

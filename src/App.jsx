@@ -5,29 +5,38 @@ import '@mantine/core/styles.css';
 import { AuthProvider } from './lib/authContext';
 import AuthGuard from './components/AuthGuard';
 import Landing from './pages/Landing';
+import About from './pages/About';
 import Login from './pages/Login';
 import Onboarding from './pages/Onboarding';
 import Dashboard from './pages/Dashboard';
 import Record from './pages/Record';
 
 const theme = createTheme({
-  primaryColor: 'dark',
+  primaryColor: 'indigo',
   defaultRadius: 'md',
   fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif',
   headings: { fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif' },
+  colors: {
+    // Keep existing dark/gray palette intact; add indigo as primary
+  },
   components: {
     Button: {
       defaultProps: {
         variant: 'filled',
-        color: 'dark',
+        color: 'indigo',
       },
     },
     ThemeIcon: {
       defaultProps: {
         variant: 'light',
-        color: 'dark',
+        color: 'indigo',
       },
-    }
+    },
+    Badge: {
+      defaultProps: {
+        color: 'indigo',
+      },
+    },
   },
 });
 
@@ -38,14 +47,15 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Landing />} />
+            <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
-            
+
             <Route element={<AuthGuard />}>
               <Route path="/onboarding" element={<Onboarding />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/record" element={<Record />} />
             </Route>
-            
+
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>

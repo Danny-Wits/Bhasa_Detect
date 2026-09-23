@@ -1,7 +1,5 @@
 body {
-  background-color: #f8f9fa;
-  background-image: radial-gradient(#dee2e6 1.5px, transparent 1.5px);
-  background-size: 30px 30px;
+  background-color: #ffffff;
 }
 
 .hero-wrapper {
@@ -12,7 +10,7 @@ body {
 
 .floating-shape {
   position: absolute;
-  opacity: 0.28;
+  opacity: 0.12;
   animation: float-shape 8s infinite ease-in-out alternate;
   z-index: 0;
 }
@@ -22,7 +20,7 @@ body {
   width: 350px;
   height: 350px;
   border-radius: 50%;
-  background: #adb5bd;
+  background: #6366f1;
   top: -120px;
   left: -80px;
   animation-duration: 9s;
