@@ -5,22 +5,21 @@ import {
   ThemeIcon, Alert, Divider, Table, Modal, SimpleGrid, Box
 } from '@mantine/core';
 import {
-  IconBrain, IconArrowLeft, IconArrowRight, IconCheck,
+  IconBrain, IconArrowRight, IconCheck,
   IconMicrophone, IconInfoCircle, IconPlayerPlay, IconReload, IconListDetails
 } from '@tabler/icons-react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../lib/authContext';
 import { useProfile } from '../hooks/useProfile';
 import { useRecordingSession } from '../hooks/useRecordingSession';
 import AudioRecorder from '../components/AudioRecorder';
-import Logo from '../components/Logo';
 import SiteHeader from '../components/SiteHeader';
 import SpectrogramViewer from '../components/SpectrogramViewer';
 
 export default function Record() {
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const { profile } = useProfile();
   
   const [techSpecModalOpen, setTechSpecModalOpen] = useState(false);

@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { TextInput, Select, Button, Container, Title, Paper, Text, Image, SimpleGrid, Stack, ThemeIcon, Group, MultiSelect } from '@mantine/core';
+import { TextInput, Select, Button, Container, Title, Paper, Text, SimpleGrid, Stack, ThemeIcon, Group, MultiSelect } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useProfile } from '../hooks/useProfile';
 import { useNavigate } from 'react-router-dom';

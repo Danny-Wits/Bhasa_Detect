@@ -7,8 +7,8 @@ import {
 import {
   IconArrowRight, IconShieldCheck, IconChartBar, IconLanguage,
   IconChevronDown, IconUserPlus, IconSelect, IconMicrophone2,
-  IconBrain, IconReportAnalytics, IconLock, IconMapPin,
-  IconBook, IconUsersGroup, IconSparkles
+  IconBrain, IconReportAnalytics, IconLock,
+  
 } from '@tabler/icons-react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../lib/authContext';

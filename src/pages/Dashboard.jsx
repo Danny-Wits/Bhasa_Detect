@@ -4,17 +4,16 @@ import {
   Badge, Stack, SimpleGrid, Grid, Skeleton, Table, Progress, Center, ThemeIcon
 } from '@mantine/core';
 import {
-  IconLogout, IconMicrophone, IconChartBar, IconClock, IconTargetArrow,
+  IconMicrophone, IconChartBar, IconClock, IconTargetArrow,
   IconLanguage, IconPlayerPlay
 } from '@tabler/icons-react';
 import { AreaChart, DonutChart, BarChart } from '@mantine/charts';
 import '@mantine/charts/styles.css';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../lib/authContext';
 import { useProfile } from '../hooks/useProfile';
 import { useDashboardData } from '../hooks/useDashboardData';
-import Logo from '../components/Logo';
 
 import SiteHeader from '../components/SiteHeader';
 
@@ -35,7 +34,7 @@ function StatCard({ icon: Icon, label, value, description }) {
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+   
   const { profile } = useProfile();
   const { data, loading } = useDashboardData();
 

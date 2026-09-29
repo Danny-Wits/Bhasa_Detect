@@ -1,13 +1,13 @@
 import React from 'react';
 import {
   AppShell, Container, Title, Text, Button, Group,
-  SimpleGrid, ThemeIcon, Stack, Paper, Badge, Box,
-  Divider, Grid, List, Anchor, Avatar
+  SimpleGrid, ThemeIcon, Stack, Paper, Badge,
+  Divider, Grid, Anchor, Avatar
 } from '@mantine/core';
 import {
   IconBrain, IconChartBar, IconMicrophone2, IconLanguage,
   IconArrowRight, IconBook, IconTargetArrow, IconUsersGroup,
-  IconCode, IconDatabase, IconTestPipe, IconSparkles
+  IconTestPipe
 } from '@tabler/icons-react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../lib/authContext';
