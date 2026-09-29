@@ -2,7 +2,7 @@ import React from 'react';
 import {
   AppShell, Container, Title, Text, Button, Group,
   SimpleGrid, ThemeIcon, Stack, Paper, Badge, Box, ActionIcon,
-  Divider, Grid, Anchor
+  Divider, Grid, Anchor, Avatar
 } from '@mantine/core';
 import {
   IconArrowRight, IconShieldCheck, IconChartBar, IconLanguage,
@@ -332,6 +332,54 @@ export default function Landing() {
                   <Text c="dimmed" size="sm">{lang.desc}</Text>
                 </Paper>
               ))}
+            </SimpleGrid>
+          </Container>
+        </div>
+        {/* ─── RESEARCH TEAM ─────────────────────────────────────────────── */}
+        <div style={{ background: '#f8faff', padding: '90px 0' }}>
+          <Container size="xl">
+            <Stack align="center" mb={56}>
+              <Badge variant="light" color="indigo" size="lg">Research Team</Badge>
+              <Title order={2} ta="center" fz={{ base: 28, md: 36 }}>
+                Led by researchers at University of Jammu
+              </Title>
+              <Text c="dimmed" ta="center" maw={600} size="lg">
+                This project is part of a larger initiative to advance Indian language technology and build inclusive AI systems.
+              </Text>
+            </Stack>
+
+            <SimpleGrid cols={{ base: 1, md: 2 }} spacing="xl">
+              {/* Researcher */}
+              <Paper p="xl" radius="lg" withBorder style={{ borderTop: '4px solid #6366f1' }}>
+                <Badge variant="light" color="indigo" mb="md">Ph.D. Researcher</Badge>
+                <Group gap="md" mb="md">
+                  <Avatar size={64} radius="xl" color="indigo" variant="filled">SC</Avatar>
+                  <div>
+                    <Text fw={700} size="xl">Sneha Choudhary</Text>
+                    <Text c="dimmed" size="sm">Ph.D. Scholar</Text>
+                  </div>
+                </Group>
+                <Text size="sm" c="dimmed" lh={1.8}>
+                  Department of Computer Science &amp; IT<br />
+                  University of Jammu, Jammu &amp; Kashmir, India
+                </Text>
+              </Paper>
+
+              {/* Supervisor */}
+              <Paper p="xl" radius="lg" withBorder style={{ borderTop: '4px solid #06b6d4' }}>
+                <Badge variant="light" color="cyan" mb="md">Research Supervisor</Badge>
+                <Group gap="md" mb="md">
+                  <Avatar size={64} radius="xl" color="cyan" variant="filled">PA</Avatar>
+                  <div>
+                    <Text fw={700} size="xl">Prof. Pawanesh Abrol</Text>
+                    <Text c="dimmed" size="sm">Professor &amp; Supervisor</Text>
+                  </div>
+                </Group>
+                <Text size="sm" c="dimmed" lh={1.8}>
+                  Department of Computer Science &amp; IT<br />
+                  University of Jammu, Jammu &amp; Kashmir, India
+                </Text>
+              </Paper>
             </SimpleGrid>
           </Container>
         </div>

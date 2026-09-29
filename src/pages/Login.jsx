@@ -31,9 +31,9 @@ export default function Login() {
             <Center mb="xl">
               <IconBrain size={120} stroke={1} color="var(--mantine-color-gray-4)" />
             </Center>
-            <Title order={2} c="white" mb="sm">Voice the Future</Title>
+            <Title order={2} c="white" mb="sm">Spoken Language Identification</Title>
             <Text c="gray.5" size="sm">
-              Join Bhasa Detect to help train the next generation of multilingual AI models. Your voice is the key to breaking language barriers.
+              A research project investigating deep learning approaches for automatic identification of spoken Hindi, English, and Dogri.
             </Text>
           </div>
 
@@ -43,7 +43,7 @@ export default function Login() {
               <ThemeIcon size={60} radius="xl">
                 <IconMicrophone size={34} />
               </ThemeIcon>
-              <Title order={3} ta="center">Welcome Back</Title>
+              <Title order={3} ta="center">Welcome</Title>
               <Text c="dimmed" size="sm" ta="center">Sign in to continue your journey.</Text>
             </Stack>
 
@@ -54,9 +54,27 @@ export default function Login() {
               size="md"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              mb="md"
             />
+            
+            <TextInput 
+              label="Email Address" 
+              placeholder="e.g. alex@example.com" 
+              size="md"
+            />
+            
             <Button fullWidth mt="xl" size="md" onClick={handleLogin}>
-              Start Recording
+              Login / Sign Up
+            </Button>
+
+            <Button 
+              fullWidth 
+              mt="sm" 
+              size="md" 
+              variant="light"
+              onClick={() => navigate('/admin')}
+            >
+              Admin Login
             </Button>
           </div>
         </SimpleGrid>

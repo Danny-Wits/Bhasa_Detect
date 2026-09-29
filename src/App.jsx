@@ -10,6 +10,7 @@ import Login from './pages/Login';
 import Onboarding from './pages/Onboarding';
 import Dashboard from './pages/Dashboard';
 import Record from './pages/Record';
+import Admin from './pages/Admin';
 
 const theme = createTheme({
   primaryColor: 'indigo',
@@ -49,6 +50,7 @@ function App() {
             <Route path="/" element={<Landing />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/admin" element={<Admin />} />
 
             <Route element={<AuthGuard />}>
               <Route path="/onboarding" element={<Onboarding />} />
