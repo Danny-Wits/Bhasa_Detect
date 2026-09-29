@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-import { TextInput, Button, Container, Title, Paper, Text, Stack, SimpleGrid, ThemeIcon, Center } from '@mantine/core';
+import { TextInput, Button, Container, Title, Paper, Text, Stack, SimpleGrid, ThemeIcon, Center, Modal, PasswordInput } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import { useAuth } from '../lib/authContext';
 import { useNavigate } from 'react-router-dom';
 import { IconMicrophone, IconBrain } from '@tabler/icons-react';
 
 export default function Login() {
   const [username, setUsername] = useState('');
+  const [adminOpened, { open: openAdmin, close: closeAdmin }] = useDisclosure(false);
+  const [adminPassword, setAdminPassword] = useState('');
+  const [adminError, setAdminError] = useState('');
   const { login, user } = useAuth();
   const navigate = useNavigate();
 
@@ -22,63 +26,91 @@ export default function Login() {
     }
   };
 
+  const handleAdminSubmit = () => {
+    if (adminPassword === 'admin') {
+      closeAdmin();
+      navigate('/admin');
+    } else {
+      setAdminError('Invalid password. Try "admin"');
+    }
+  };
+
   return (
-    <Container size="md" my={60}>
-      <Paper withBorder shadow="xl" p={0} radius="lg" style={{ overflow: 'hidden' }}>
-        <SimpleGrid cols={{ base: 1, md: 2 }} spacing={0}>
-          {/* Left Side: Art & Info */}
-          <div style={{ backgroundColor: '#1a1b1e', padding: '2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <Center mb="xl">
-              <IconBrain size={120} stroke={1} color="var(--mantine-color-gray-4)" />
-            </Center>
-            <Title order={2} c="white" mb="sm">Spoken Language Identification</Title>
-            <Text c="gray.5" size="sm">
-              A research project investigating deep learning approaches for automatic identification of spoken Hindi, English, and Dogri.
-            </Text>
-          </div>
+    <>
+      <Modal opened={adminOpened} onClose={closeAdmin} title="Admin Access">
+        <PasswordInput
+          label="Admin Password"
+          placeholder="Enter password"
+          value={adminPassword}
+          onChange={(e) => {
+            setAdminPassword(e.target.value);
+            setAdminError('');
+          }}
+          error={adminError}
+          data-autofocus
+        />
+        <Button fullWidth mt="md" onClick={handleAdminSubmit}>
+          Access Dashboard
+        </Button>
+      </Modal>
 
-          {/* Right Side: Login Form */}
-          <div style={{ padding: '3rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <Stack align="center" mb="xl">
-              <ThemeIcon size={60} radius="xl">
-                <IconMicrophone size={34} />
-              </ThemeIcon>
-              <Title order={3} ta="center">Welcome</Title>
-              <Text c="dimmed" size="sm" ta="center">Sign in to continue your journey.</Text>
-            </Stack>
+      <Container size="md" my={60}>
+        <Paper withBorder shadow="xl" p={0} radius="lg" style={{ overflow: 'hidden' }}>
+          <SimpleGrid cols={{ base: 1, md: 2 }} spacing={0}>
+            {/* Left Side: Art & Info */}
+            <div style={{ backgroundColor: '#1a1b1e', padding: '2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <Center mb="xl">
+                <IconBrain size={120} stroke={1} color="var(--mantine-color-gray-4)" />
+              </Center>
+              <Title order={2} c="white" mb="sm">Spoken Language Identification</Title>
+              <Text c="gray.5" size="sm">
+                A research project investigating deep learning approaches for automatic identification of spoken Hindi, English, and Dogri.
+              </Text>
+            </div>
 
-            <TextInput 
-              label="Username" 
-              placeholder="e.g. alex_dev" 
-              required 
-              size="md"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              mb="md"
-            />
-            
-            <TextInput 
-              label="Email Address" 
-              placeholder="e.g. alex@example.com" 
-              size="md"
-            />
-            
-            <Button fullWidth mt="xl" size="md" onClick={handleLogin}>
-              Login / Sign Up
-            </Button>
+            {/* Right Side: Login Form */}
+            <div style={{ padding: '3rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <Stack align="center" mb="xl">
+                <ThemeIcon size={60} radius="xl">
+                  <IconMicrophone size={34} />
+                </ThemeIcon>
+                <Title order={3} ta="center">Welcome</Title>
+                <Text c="dimmed" size="sm" ta="center">Sign in to continue your journey.</Text>
+              </Stack>
 
-            <Button 
-              fullWidth 
-              mt="sm" 
-              size="md" 
-              variant="light"
-              onClick={() => navigate('/admin')}
-            >
-              Admin Login
-            </Button>
-          </div>
-        </SimpleGrid>
-      </Paper>
-    </Container>
+              <TextInput 
+                label="Username" 
+                placeholder="e.g. alex_dev" 
+                required 
+                size="md"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                mb="md"
+              />
+              
+              <TextInput 
+                label="Email Address" 
+                placeholder="e.g. alex@example.com" 
+                size="md"
+              />
+              
+              <Button fullWidth mt="xl" size="md" onClick={handleLogin}>
+                Login / Sign Up
+              </Button>
+
+              <Button 
+                fullWidth 
+                mt="sm" 
+                size="md" 
+                variant="light"
+                onClick={openAdmin}
+              >
+                Admin Login
+              </Button>
+            </div>
+          </SimpleGrid>
+        </Paper>
+      </Container>
+    </>
   );
 }
