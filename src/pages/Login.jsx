@@ -6,11 +6,18 @@ import { useNavigate } from 'react-router-dom';
 import { IconMicrophone, IconBrain } from '@tabler/icons-react';
 
 export default function Login() {
+  const [isRegister, setIsRegister] = useState(false);
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
   const [adminOpened, { open: openAdmin, close: closeAdmin }] = useDisclosure(false);
   const [adminPassword, setAdminPassword] = useState('');
   const [adminError, setAdminError] = useState('');
-  const { login, user } = useAuth();
+  
+  const { login, register, user } = useAuth();
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -19,10 +26,27 @@ export default function Login() {
     }
   }, [user, navigate]);
 
-  const handleLogin = () => {
-    if (username.trim()) {
-      login(username);
-      navigate('/');
+  const handleSubmit = async () => {
+    setError('');
+    setLoading(true);
+    try {
+      if (isRegister) {
+        if (!username || !email || !password) {
+          throw new Error("Please fill in all fields.");
+        }
+        await register(username, email, password);
+        navigate('/onboarding');
+      } else {
+        if (!email || !password) {
+          throw new Error("Please fill in all fields.");
+        }
+        await login(email, password);
+        navigate('/');
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -75,37 +99,64 @@ export default function Login() {
                   <IconMicrophone size={34} />
                 </ThemeIcon>
                 <Title order={3} ta="center">Welcome</Title>
-                <Text c="dimmed" size="sm" ta="center">Sign in to continue your journey.</Text>
+                <Text c="dimmed" size="sm" ta="center">
+                  {isRegister ? "Create an account to contribute" : "Sign in to continue your journey."}
+                </Text>
               </Stack>
 
-              <TextInput 
-                label="Username" 
-                placeholder="e.g. alex_dev" 
-                required 
-                size="md"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                mb="md"
-              />
+              {error && <Text c="red" size="sm" ta="center" mb="md">{error}</Text>}
+
+              {isRegister && (
+                <TextInput 
+                  label="Name" 
+                  placeholder="e.g. Alex" 
+                  required 
+                  size="md"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  mb="md"
+                />
+              )}
               
               <TextInput 
                 label="Email Address" 
                 placeholder="e.g. alex@example.com" 
+                required
                 size="md"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                mb="md"
+              />
+
+              <PasswordInput 
+                label="Password" 
+                placeholder="Your password" 
+                required
+                size="md"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               
-              <Button fullWidth mt="xl" size="md" onClick={handleLogin}>
-                Login / Sign Up
+              <Button fullWidth mt="xl" size="md" onClick={handleSubmit} loading={loading}>
+                {isRegister ? "Sign Up" : "Login"}
               </Button>
+
+              <Text ta="center" mt="md" size="sm">
+                {isRegister ? "Already have an account? " : "Don't have an account? "}
+                <Text component="span" c="blue" style={{cursor: 'pointer'}} onClick={() => setIsRegister(!isRegister)}>
+                  {isRegister ? "Login here" : "Sign up here"}
+                </Text>
+              </Text>
 
               <Button 
                 fullWidth 
-                mt="sm" 
-                size="md" 
-                variant="light"
+                mt="xl" 
+                size="sm" 
+                variant="subtle"
+                color="gray"
                 onClick={openAdmin}
               >
-                Admin Login
+                Admin Access
               </Button>
             </div>
           </SimpleGrid>

@@ -7,3 +7,6 @@ numpy==1.26.4
 python-multipart==0.0.9
 imageio-ffmpeg==0.6.0
 audioread==3.1.0
+passlib[bcrypt]==1.7.4
+PyJWT==2.8.0
+python-multipart==0.0.9

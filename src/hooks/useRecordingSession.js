@@ -79,12 +79,19 @@ export function useRecordingSession(languages = []) {
 
     try {
       const formData = new FormData();
-      formData.append('audio', blob, 'recording.wav');
+      // The browser's MediaRecorder creates a WebM file (or mp4 on Safari).
+      // Labeling it as .webm instead of .wav prevents `librosa` from misinterpreting the header.
+      formData.append('audio', blob, 'recording.webm');
       formData.append('username', username);
       formData.append('expected_language', expectedLang);
 
+      const token = localStorage.getItem('bhasa_token') || '';
+      
       const response = await fetch('http://localhost:8000/predict', {
         method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
         body: formData,
       });
 

@@ -52,6 +52,10 @@ export default function Dashboard() {
               <SimpleGrid cols={{ base: 1, md: 4 }}><Skeleton height={100} /><Skeleton height={100} /><Skeleton height={100} /><Skeleton height={100} /></SimpleGrid>
               <Skeleton height={300} radius="md" />
             </Stack>
+          ) : !data ? (
+            <Center style={{ height: 400 }}>
+              <Text c="dimmed">No dashboard data available. Please record some audio first or login again.</Text>
+            </Center>
           ) : (
             <Stack gap="xl">
               {/* Welcome Banner */}
