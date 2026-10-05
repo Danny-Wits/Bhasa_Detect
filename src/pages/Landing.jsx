@@ -212,12 +212,25 @@ export default function Landing() {
                   borderRadius: '24px',
                   overflow: 'hidden',
                   boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
+                  maxWidth: '80%',
+                  margin: '0 auto',
                 }}
               >
+                {/* Color Theme Overlay */}
+                <div 
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'linear-gradient(135deg, rgba(79,70,229,0.7) 0%, rgba(6,182,212,0.7) 100%)',
+                    mixBlendMode: 'color',
+                    zIndex: 2,
+                    pointerEvents: 'none'
+                  }}
+                />
                 <img 
                   src="/academic_research_lab.jpg" 
                   alt="Academic Research Lab" 
-                  style={{ width: '100%', height: 'auto', display: 'block' }} 
+                  style={{ width: '100%', height: 'auto', display: 'block', filter: 'grayscale(100%) contrast(1.1)' }} 
                 />
               </Box>
             </SimpleGrid>
