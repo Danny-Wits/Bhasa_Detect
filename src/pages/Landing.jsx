@@ -202,22 +202,23 @@ export default function Landing() {
                 </Group>
               </Stack>
 
-              {/* Right — Waveform */}
+              {/* Right — Image */}
               <Box
-                onClick={() => navigate(user ? '/record' : '/login')}
-                onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.04)')}
-                onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
                 style={{
                   position: 'relative',
-                  height: '350px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  cursor: 'pointer',
-                  transition: 'transform 0.25s ease',
+                  borderRadius: '24px',
+                  overflow: 'hidden',
+                  boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
                 }}
               >
-                <HeroWaveform />
+                <img 
+                  src="/academic_research_lab.jpg" 
+                  alt="Academic Research Lab" 
+                  style={{ width: '100%', height: 'auto', display: 'block' }} 
+                />
               </Box>
             </SimpleGrid>
           </Container>
@@ -244,46 +245,46 @@ export default function Landing() {
         </div>
 
         {/* ─── RESEARCH TEAM ─────────────────────────────────────────────── */}
-        <div style={{ background: '#f8faff', padding: '90px 0' }}>
+        <div style={{ background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)', padding: '100px 0' }}>
           <Container size="xl">
             <Stack align="center" mb={56}>
-              <Badge variant="light" color="indigo" size="lg">Research Team</Badge>
-              <Title order={2} ta="center" fz={{ base: 28, md: 36 }}>
+              <Badge variant="white" color="indigo" size="lg">Research Team</Badge>
+              <Title order={2} ta="center" c="white" fz={{ base: 32, md: 42 }}>
                 Led by researchers at University of Jammu
               </Title>
-              <Text c="dimmed" ta="center" maw={600} size="lg">
+              <Text c="rgba(255,255,255,0.8)" ta="center" maw={600} size="lg">
                 This project is part of a larger initiative to advance Indian language technology and build inclusive AI systems.
               </Text>
             </Stack>
 
             <SimpleGrid cols={{ base: 1, md: 2 }} spacing="xl">
               {/* Researcher */}
-              <Paper p="xl" radius="lg" withBorder style={{ borderTop: '4px solid #6366f1' }}>
-                <Badge variant="light" color="indigo" mb="md">Ph.D. Researcher</Badge>
+              <Paper p="xl" radius="lg" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                <Badge variant="light" color="indigo" mb="md" style={{ background: 'rgba(99, 102, 241, 0.2)', color: '#e0e7ff' }}>Ph.D. Researcher</Badge>
                 <Group gap="md" mb="md">
                   <Avatar size={64} radius="xl" color="indigo" variant="filled">SC</Avatar>
                   <div>
-                    <Text fw={700} size="xl">Sneha Choudhary</Text>
-                    <Text c="dimmed" size="sm">Ph.D. Scholar</Text>
+                    <Text fw={700} size="xl" c="white">Sneha Choudhary</Text>
+                    <Text c="rgba(255,255,255,0.6)" size="sm">Ph.D. Scholar</Text>
                   </div>
                 </Group>
-                <Text size="sm" c="dimmed" lh={1.8}>
+                <Text size="sm" c="rgba(255,255,255,0.7)" lh={1.8}>
                   Department of Computer Science &amp; IT<br />
                   University of Jammu, Jammu &amp; Kashmir, India
                 </Text>
               </Paper>
 
               {/* Supervisor */}
-              <Paper p="xl" radius="lg" withBorder style={{ borderTop: '4px solid #06b6d4' }}>
-                <Badge variant="light" color="cyan" mb="md">Research Supervisor</Badge>
+              <Paper p="xl" radius="lg" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                <Badge variant="light" color="cyan" mb="md" style={{ background: 'rgba(6, 182, 212, 0.2)', color: '#cffafe' }}>Research Supervisor</Badge>
                 <Group gap="md" mb="md">
                   <Avatar size={64} radius="xl" color="cyan" variant="filled">PA</Avatar>
                   <div>
-                    <Text fw={700} size="xl">Prof. Pawanesh Abrol</Text>
-                    <Text c="dimmed" size="sm">Professor &amp; Supervisor</Text>
+                    <Text fw={700} size="xl" c="white">Prof. Pawanesh Abrol</Text>
+                    <Text c="rgba(255,255,255,0.6)" size="sm">Professor &amp; Supervisor</Text>
                   </div>
                 </Group>
-                <Text size="sm" c="dimmed" lh={1.8}>
+                <Text size="sm" c="rgba(255,255,255,0.7)" lh={1.8}>
                   Department of Computer Science &amp; IT<br />
                   University of Jammu, Jammu &amp; Kashmir, India
                 </Text>
