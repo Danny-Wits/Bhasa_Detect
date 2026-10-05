@@ -29,7 +29,6 @@ export default function Onboarding() {
       languages: []
     },
     validate: {
-      name: (val) => (val.length < 2 ? 'Name must have at least 2 letters' : null),
       age: (val) => (!val ? 'Please select your age group' : null),
       gender: (val) => (!val ? 'Please select your gender' : null),
       state: (val) => (!val ? 'Please select your state' : null),
@@ -67,8 +66,7 @@ export default function Onboarding() {
 
     const finalDistrict = values.district === 'Other / Not Found' ? values.customDistrict : values.district;
     
-    saveProfile({ 
-      name: values.name,
+    await saveProfile({ 
       age: values.age,
       gender: values.gender,
       state: values.state,
@@ -101,7 +99,6 @@ export default function Onboarding() {
 
             <form onSubmit={form.onSubmit(handleSubmit)}>
               <Stack gap="sm">
-                <TextInput label="Full Name" placeholder="Your name" size="md" {...form.getInputProps('name')} />
                 
                 <Group grow>
                   <Select label="Age Group" placeholder="Select" size="md" data={AGE_GROUPS} {...form.getInputProps('age')} />

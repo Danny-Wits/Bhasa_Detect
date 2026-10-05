@@ -63,7 +63,7 @@ export default function Dashboard() {
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 4, background: '#1a1b1e' }} />
                 <Group justify="space-between" align="flex-start" wrap="wrap">
                   <div>
-                    <Title order={2} mb="xs">Welcome back, {profile?.name}!</Title>
+                    <Title order={2} mb="xs">Welcome back, {user?.name}!</Title>
                     <Text c="dimmed">
                       Your evaluation dashboard — track your contributions to multilingual speech recognition research.
                     </Text>
@@ -113,23 +113,15 @@ export default function Dashboard() {
                       <DonutChart
                         size={160}
                         thickness={20}
-                        data={[
-                          { name: 'English', value: 24, color: 'dark.9' },
-                          { name: 'Hindi', value: 20, color: 'gray.6' },
-                          { name: 'Dogri', value: 16, color: 'gray.3' },
-                        ]}
+                        data={data.languageData}
                         withTooltip
                       />
                     </Center>
                     <Stack gap="xs" mt="md">
-                      {[
-                        { name: 'English', value: 24, shade: '#1a1b1e' },
-                        { name: 'Hindi', value: 20, shade: '#868e96' },
-                        { name: 'Dogri', value: 16, shade: '#ced4da' },
-                      ].map((lang) => (
+                      {data.languageData.map((lang) => (
                         <Group key={lang.name} gap="xs" justify="space-between">
                           <Group gap="xs">
-                            <div style={{ width: 12, height: 12, borderRadius: '50%', backgroundColor: lang.shade }} />
+                            <div style={{ width: 12, height: 12, borderRadius: '50%', backgroundColor: `var(--mantine-color-${lang.color})` }} />
                             <Text size="sm">{lang.name}</Text>
                           </Group>
                           <Text size="sm" fw={600}>{lang.value} sentences</Text>
