@@ -4,13 +4,6 @@ import numpy as np
 import librosa
 import tensorflow as tf
 
-# Dynamically add ffmpeg to PATH so librosa can decode browser WebM recordings
-try:
-    import imageio_ffmpeg
-    os.environ["PATH"] += os.pathsep + os.path.dirname(imageio_ffmpeg.get_ffmpeg_exe())
-except ImportError:
-    pass
-
 MODEL_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "language_cnn.keras")
 # If language_classes.npy is missing, we hardcode based on the notebook logic
 CLASSES = ["Dogri", "English", "Hindi"]
@@ -24,27 +17,49 @@ print(f"Loading model from {MODEL_PATH}...")
 model = tf.keras.models.load_model(MODEL_PATH)
 print("Model loaded successfully.")
 
+import subprocess
+import imageio_ffmpeg
+
 def extract_mfcc(file_path):
-    audio, sr = librosa.load(file_path, sr=SAMPLE_RATE, mono=True)
-    duration = librosa.get_duration(y=audio, sr=sr)
-    
-    # Normalize
-    audio = librosa.util.normalize(audio)
-
-    # Trim silence
-    audio, _ = librosa.effects.trim(audio, top_db=20)
-
-    # MFCC
-    mfcc = librosa.feature.mfcc(y=audio, sr=SAMPLE_RATE, n_mfcc=N_MFCC)
-
-    # Fixed length
-    if mfcc.shape[1] < MAX_LEN:
-        pad_width = MAX_LEN - mfcc.shape[1]
-        mfcc = np.pad(mfcc, ((0, 0), (0, pad_width)), mode="constant")
+    # Convert file to WAV using ffmpeg if it's not already a WAV.
+    # Librosa 0.10+ relies solely on soundfile which doesn't support WebM.
+    wav_path = None
+    if not file_path.lower().endswith('.wav'):
+        wav_path = file_path + "_" + ".wav"
+        ffmpeg_exe = imageio_ffmpeg.get_ffmpeg_exe()
+        subprocess.run([
+            ffmpeg_exe, "-y", "-i", file_path, 
+            "-ac", "1", "-ar", str(SAMPLE_RATE), 
+            wav_path
+        ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        load_path = wav_path
     else:
-        mfcc = mfcc[:, :MAX_LEN]
+        load_path = file_path
 
-    return mfcc, duration
+    try:
+        audio, sr = librosa.load(load_path, sr=SAMPLE_RATE, mono=True)
+        duration = librosa.get_duration(y=audio, sr=sr)
+        
+        # Normalize
+        audio = librosa.util.normalize(audio)
+
+        # Trim silence
+        audio, _ = librosa.effects.trim(audio, top_db=20)
+
+        # MFCC
+        mfcc = librosa.feature.mfcc(y=audio, sr=SAMPLE_RATE, n_mfcc=N_MFCC)
+
+        # Fixed length
+        if mfcc.shape[1] < MAX_LEN:
+            pad_width = MAX_LEN - mfcc.shape[1]
+            mfcc = np.pad(mfcc, ((0, 0), (0, pad_width)), mode="constant")
+        else:
+            mfcc = mfcc[:, :MAX_LEN]
+
+        return mfcc, duration
+    finally:
+        if wav_path and os.path.exists(wav_path):
+            os.remove(wav_path)
 
 def predict_language(file_path):
     mfcc, duration = extract_mfcc(file_path)
