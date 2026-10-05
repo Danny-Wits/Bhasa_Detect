@@ -35,6 +35,7 @@ function StatCard({ icon: Icon, label, value, description }) {
 export default function Dashboard() {
   const navigate = useNavigate();
    
+  const { user } = useAuth();
   const { profile } = useProfile();
   const { data, loading } = useDashboardData();
 

@@ -82,7 +82,7 @@ export default function Record() {
                   <Group gap="xs" mb="xs">
                     <Text size="sm" fw={600}>Your profile:</Text>
                   </Group>
-                  <Text size="sm"><strong>Name:</strong> {profile?.name}</Text>
+                  <Text size="sm"><strong>Name:</strong> {user?.name}</Text>
                   <Text size="sm"><strong>Languages:</strong> {profile?.languages?.join(', ')}</Text>
                   <Text size="sm"><strong>Place:</strong> {profile?.place || '—'}</Text>
                 </Paper>
@@ -124,7 +124,7 @@ export default function Record() {
                 </ThemeIcon>
                 <Title order={2} ta="center">Session Complete!</Title>
                 <Text c="dimmed" ta="center">
-                  Great job, {profile?.name}! You have completed all {totalSentences} sentences.
+                  Great job, {user?.name}! You have completed all {totalSentences} sentences.
                   Here is a quick summary of your session.
                 </Text>
 
