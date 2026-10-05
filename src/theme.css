@@ -12,7 +12,6 @@ body {
 .hero-wrapper {
   position: relative;
   overflow: hidden;
-  min-height: 90vh;
 }
 
 .floating-shape {
