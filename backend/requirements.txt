@@ -5,3 +5,4 @@ librosa==0.10.1
 tensorflow==2.15.0
 numpy==1.26.4
 python-multipart==0.0.9
+imageio-ffmpeg==0.6.0

@@ -1,7 +1,15 @@
 import os
+import sys
 import numpy as np
 import librosa
 import tensorflow as tf
+
+# Dynamically add ffmpeg to PATH so librosa can decode browser WebM recordings
+try:
+    import imageio_ffmpeg
+    os.environ["PATH"] += os.pathsep + os.path.dirname(imageio_ffmpeg.get_ffmpeg_exe())
+except ImportError:
+    pass
 
 MODEL_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "language_cnn.keras")
 # If language_classes.npy is missing, we hardcode based on the notebook logic
