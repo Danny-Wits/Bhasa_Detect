@@ -11,43 +11,49 @@ Bhasa Detect is a community-driven multilingual voice data collection platform. 
 ## 🛠️ Tech Stack
 - **Frontend Framework:** React (Vite)
 - **UI Library:** Mantine UI v7 & Mantine Charts
-- **Icons:** Tabler Icons
-- **Routing:** React Router DOM
-- **Data Management:** Custom React Context and Hooks (Mocking Backend/Supabase)
+- **Frontend Routing:** React Router DOM
+- **Backend API:** FastAPI (Python)
+- **Machine Learning:** TensorFlow (Keras) & Librosa
+- **Database:** SQLite (SQLAlchemy)
 
 ## 📦 Getting Started
 
-### Prerequisites
-Make sure you have [Node.js](https://nodejs.org/) installed on your machine.
+To run the full application locally, you will need to run both the frontend and the backend servers.
 
-### Installation
+### 1. Start the Backend Server (FastAPI)
 
-1. Clone the repository:
+1. Open a terminal and navigate to the backend directory:
    ```bash
-   git clone https://github.com/Danny-Wits/Bhasa_Detect.git
-   cd Bhasa_Detect
+   cd backend
    ```
+2. Activate the virtual environment (assuming it's already created):
+   ```bash
+   source venv/bin/activate
+   # On Windows: venv\Scripts\activate
+   ```
+3. Run the server:
+   ```bash
+   python run.py
+   ```
+   The backend will start running on `http://localhost:8000`.
 
-2. Install the dependencies:
+### 2. Start the Frontend Server (Vite/React)
+
+1. Open a **new** terminal window in the root directory of the project.
+2. Install the dependencies (if you haven't already):
    ```bash
    npm install
    ```
-
 3. Start the development server:
    ```bash
    npm run dev
    ```
-
 4. Open your browser and navigate to the provided local URL (usually `http://localhost:5173`).
 
 ## 📁 Project Structure
 
-- `/src/pages` - Main application views (Landing, Login, Onboarding, Dashboard).
-- `/src/components` - Reusable UI elements (AudioRecorder, AuthGuard, custom Logo).
-- `/src/hooks` - Core business logic and mock data generation (`useProfile`, `useAudioSubmission`, etc.).
-- `/src/lib` - Global Context providers (Mock Authentication).
-- `/src/assets` - Static images and custom vector art.
-
-## 🔜 Next Steps
-- Connect to a live backend/database (e.g., Supabase) for persistent user sessions.
-- Integrate the real Machine Learning prediction endpoint for audio processing and validation.
+- `/backend` - FastAPI application, ML inference logic, and SQLite database. See [backend/README.md](backend/README.md) for details.
+- `/src/pages` - Main application views (Landing, Login, Onboarding, Dashboard, Record, Admin, About).
+- `/src/components` - Reusable UI elements (SiteHeader, HeroWaveform, SpectrogramViewer, AudioRecorder).
+- `/src/hooks` - Core business logic and API connections (`useRecordingSession`, `useProfile`).
+- `/src/lib` - Global Context providers.

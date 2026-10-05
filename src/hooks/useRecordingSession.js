@@ -68,73 +68,94 @@ export function useRecordingSession(languages = []) {
     setIsPredicting(true);
     setCurrentPrediction(null);
 
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        setIsPredicting(false);
-        const isCorrect = Math.random() > 0.15;
-        const expectedLang = currentSentence.language;
-        const predictedLang = isCorrect ? expectedLang : languages[Math.floor(Math.random() * languages.length)];
-        const confidence = parseFloat((Math.random() * (0.99 - 0.70) + 0.70).toFixed(2));
-        const duration = parseFloat((Math.random() * (5.0 - 1.5) + 1.5).toFixed(1));
+    const expectedLang = currentSentence.language;
+    const storedUser = localStorage.getItem('bhasa_user');
+    const username = storedUser ? JSON.parse(storedUser) : 'anonymous';
 
-        let blobUrl = null;
-        if (blob) {
-          blobUrl = URL.createObjectURL(blob);
+    let blobUrl = null;
+    if (blob) {
+      blobUrl = URL.createObjectURL(blob);
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append('audio', blob, 'recording.wav');
+      formData.append('username', username);
+      formData.append('expected_language', expectedLang);
+
+      const response = await fetch('http://localhost:8000/predict', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Prediction request failed');
+      }
+
+      const data = await response.json();
+
+      const predictedLang = data.predicted_language;
+      const confidence = data.confidence / 100; // Normalize 0-1
+      const duration = data.duration_sec;
+
+      const techSpecs = {
+        blobUrl,
+        spectral: { 
+          centroid: (Math.random() * 2000 + 1000).toFixed(2) + ' Hz', 
+          bandwidth: (Math.random() * 1000 + 1500).toFixed(2) + ' Hz', 
+          rolloff: (Math.random() * 3000 + 2000).toFixed(2) + ' Hz',
+          contrast: (Math.random() * 10 + 10).toFixed(2) + ' dB',
+          flux: (Math.random() * 1.5).toFixed(3)
+        },
+        prosodic: { 
+          pitch: (Math.random() * 150 + 100).toFixed(1) + ' Hz', 
+          duration: duration + ' s',
+          speechRate: (Math.random() * 3 + 2).toFixed(1) + ' syllables/s'
+        },
+        formants: { 
+          f1: (Math.random() * 400 + 300).toFixed(0) + ' Hz', 
+          f2: (Math.random() * 1000 + 1000).toFixed(0) + ' Hz',
+          f3: (Math.random() * 500 + 2200).toFixed(0) + ' Hz',
+          f4: (Math.random() * 500 + 3200).toFixed(0) + ' Hz'
+        },
+        timeDomain: { 
+          rms: (Math.random() * 0.05 + 0.01).toFixed(4), 
+          zcr: (Math.random() * 0.05 + 0.02).toFixed(4),
+          energy: (Math.random() * 100 + 50).toFixed(1)
+        },
+        voiceQuality: { 
+          jitter: (Math.random() * 1.5 + 0.1).toFixed(2) + '%', 
+          shimmer: (Math.random() * 3 + 1).toFixed(2) + '%', 
+          hnr: (Math.random() * 15 + 10).toFixed(1) + ' dB', 
+          cpp: (Math.random() * 10 + 5).toFixed(1) + ' dB' 
         }
+      };
 
-        const techSpecs = {
-          blobUrl,
-          spectral: { 
-            centroid: (Math.random() * 2000 + 1000).toFixed(2) + ' Hz', 
-            bandwidth: (Math.random() * 1000 + 1500).toFixed(2) + ' Hz', 
-            rolloff: (Math.random() * 3000 + 2000).toFixed(2) + ' Hz',
-            contrast: (Math.random() * 10 + 10).toFixed(2) + ' dB',
-            flux: (Math.random() * 1.5).toFixed(3)
-          },
-          prosodic: { 
-            pitch: (Math.random() * 150 + 100).toFixed(1) + ' Hz', 
-            duration: duration + ' s',
-            speechRate: (Math.random() * 3 + 2).toFixed(1) + ' syllables/s'
-          },
-          formants: { 
-            f1: (Math.random() * 400 + 300).toFixed(0) + ' Hz', 
-            f2: (Math.random() * 1000 + 1000).toFixed(0) + ' Hz',
-            f3: (Math.random() * 500 + 2200).toFixed(0) + ' Hz',
-            f4: (Math.random() * 500 + 3200).toFixed(0) + ' Hz'
-          },
-          timeDomain: { 
-            rms: (Math.random() * 0.05 + 0.01).toFixed(4), 
-            zcr: (Math.random() * 0.05 + 0.02).toFixed(4),
-            energy: (Math.random() * 100 + 50).toFixed(1)
-          },
-          voiceQuality: { 
-            jitter: (Math.random() * 1.5 + 0.1).toFixed(2) + '%', 
-            shimmer: (Math.random() * 3 + 1).toFixed(2) + '%', 
-            hnr: (Math.random() * 15 + 10).toFixed(1) + ' dB', 
-            cpp: (Math.random() * 10 + 5).toFixed(1) + ' dB' 
-          }
-        };
+      const result = {
+        sentenceId: currentSentence.id,
+        sentence: currentSentence.text,
+        expectedLanguage: expectedLang,
+        predictedLanguage: predictedLang,
+        confidence,
+        isCorrect: predictedLang === expectedLang,
+        duration,
+        techSpecs,
+        probabilities: data.probabilities, // Store detailed probabilities
+      };
 
-        const result = {
-          sentenceId: currentSentence.id,
-          sentence: currentSentence.text,
-          expectedLanguage: expectedLang,
-          predictedLanguage: predictedLang,
-          confidence,
-          isCorrect: predictedLang === expectedLang,
-          duration,
-          techSpecs,
-        };
-
-        setCurrentPrediction(result);
-        setResults((prev) => {
-          const updated = [...prev];
-          updated[currentIndex] = result;
-          return updated;
-        });
-        resolve(result);
-      }, 2000);
-    });
+      setCurrentPrediction(result);
+      setResults((prev) => {
+        const updated = [...prev];
+        updated[currentIndex] = result;
+        return updated;
+      });
+    } catch (err) {
+      console.error('Error during prediction API call:', err);
+      // Fallback for demo or server down
+      alert('Failed to connect to backend server. Ensure it is running on port 8000.');
+    } finally {
+      setIsPredicting(false);
+    }
   };
 
   const reRecord = () => {
