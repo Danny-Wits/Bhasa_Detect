@@ -58,7 +58,7 @@ export default function SiteHeader({ hideDashboard = false }) {
           {user ? (
             <Group gap="xs" ml="sm">
               <Badge variant="light" color="indigo" style={{ textTransform: 'none' }}>
-                {profile?.name || user}
+                {profile?.name || user?.name}
               </Badge>
               <ActionIcon
                 variant="subtle"
@@ -99,7 +99,7 @@ export default function SiteHeader({ hideDashboard = false }) {
         <Stack gap="sm" mt="md">
           {user ? (
             <>
-              <Text size="sm" c="dimmed" mb="xs">Logged in as {profile?.name || user}</Text>
+              <Text size="sm" c="dimmed" mb="xs">Logged in as {profile?.name || user?.name}</Text>
               <Button
                 variant="subtle" color="gray"
                 component={Link} to="/" onClick={close}
