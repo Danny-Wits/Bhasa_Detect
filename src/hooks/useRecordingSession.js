@@ -1,75 +1,93 @@
 import { useState, useCallback } from 'react';
 import { API_BASE_URL } from '../lib/api';
+import { SENTENCES_DATA } from '../data/sentences';
 
-const SENTENCES = {
-  English: [
-    "The quick brown fox jumps over the lazy dog.",
-    "Artificial intelligence is transforming how we communicate.",
-    "Please read this sentence clearly into the microphone.",
-    "Technology bridges the gap between different cultures.",
-    "Speech recognition helps build a more inclusive world.",
-    "Every voice matters in the age of machine learning.",
-    "Language is the most powerful tool humanity has ever created.",
-    "Digital assistants rely on diverse voice data to improve.",
-  ],
-  Hindi: [
-    "यह एक बहुत ही सुंदर दिन है।",
-    "कृत्रिम बुद्धिमत्ता भविष्य को बदल रही है।",
-    "कृपया इस वाक्य को स्पष्ट रूप से पढ़ें।",
-    "प्रौद्योगिकी विभिन्न संस्कृतियों को जोड़ती है।",
-    "भाषा पहचान तकनीक दिन-ब-दिन बेहतर हो रही है।",
-    "हर आवाज़ मशीन लर्निंग के युग में महत्वपूर्ण है।",
-    "भाषा मानवता का सबसे शक्तिशाली उपकरण है।",
-    "डिजिटल सहायक विविध आवाज़ डेटा पर निर्भर करते हैं।",
-  ],
-  Dogri: [
-    "अज्ज दा दिन बड़ा सुहाना ऐ।",
-    "तुसें दा केह् नां ऐ?",
-    "मिगी तुंदे कन्नै गल्ल करियै बड़ा शैल लग्गा।",
-    "इस वाक्य गी ध्यान कन्नै पढ़ो।",
-    "हर बंदे दी आवाज़ दा मतलब ऐ।",
-    "भाषा इक बड्डी ताकत ऐ।",
-    "तकनीक सारेआं गी जोड़दी ऐ।",
-    "नमस्ते, तुसीं कुस हाल ओ?",
-  ],
-};
+export const TOTAL_TESTS = 5;
+export const SENTENCES_PER_TEST = 5;
 
-const TOTAL_SENTENCES = 5;
+// Fisher-Yates array shuffle
+function shuffle(array) {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+export function generateSessionTests(selectedLanguages = []) {
+  const availableLangs = ['Dogri', 'Hindi', 'English'];
+  const userLangs = (selectedLanguages && selectedLanguages.length > 0)
+    ? selectedLanguages.filter((l) => availableLangs.includes(l))
+    : availableLangs;
+
+  const activeLangs = userLangs.length > 0 ? userLangs : availableLangs;
+
+  // Track sentence pools per language to ensure non-repeating sentences across tests
+  const languagePools = {};
+  activeLangs.forEach((lang) => {
+    languagePools[lang] = shuffle(SENTENCES_DATA[lang] || SENTENCES_DATA.English);
+  });
+
+  const sessionTests = [];
+
+  for (let testIdx = 0; testIdx < TOTAL_TESTS; testIdx++) {
+    const testLanguage = activeLangs[testIdx % activeLangs.length];
+
+    if (!languagePools[testLanguage] || languagePools[testLanguage].length < SENTENCES_PER_TEST) {
+      languagePools[testLanguage] = shuffle(SENTENCES_DATA[testLanguage] || SENTENCES_DATA.English);
+    }
+
+    const fiveSentences = languagePools[testLanguage].splice(0, SENTENCES_PER_TEST);
+
+    sessionTests.push({
+      testNumber: testIdx + 1,
+      language: testLanguage,
+      sentences: fiveSentences,
+      combinedText: fiveSentences.join(' '),
+    });
+  }
+
+  return sessionTests;
+}
 
 export function useRecordingSession(languages = []) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [sessionSentences, setSessionSentences] = useState([]);
+  const [currentTestIndex, setCurrentTestIndex] = useState(0);
+  const [sessionTests, setSessionTests] = useState([]);
   const [results, setResults] = useState([]);
   const [isPredicting, setIsPredicting] = useState(false);
   const [currentPrediction, setCurrentPrediction] = useState(null);
   const [isSessionReady, setIsSessionReady] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
 
   const initSession = useCallback(() => {
-    if (!languages || languages.length === 0) return;
-
-    const sentences = [];
-    for (let i = 0; i < TOTAL_SENTENCES; i++) {
-      const lang = languages[i % languages.length];
-      const pool = SENTENCES[lang] || SENTENCES.English;
-      const line = pool[Math.floor(Math.random() * pool.length)];
-      sentences.push({ language: lang, text: line, id: i + 1 });
-    }
-
-    setSessionSentences(sentences);
-    setCurrentIndex(0);
+    const generated = generateSessionTests(languages);
+    setSessionTests(generated);
+    setCurrentTestIndex(0);
     setResults([]);
     setCurrentPrediction(null);
+    setIsFinished(false);
     setIsSessionReady(true);
   }, [languages]);
 
-  const currentSentence = sessionSentences[currentIndex] || null;
-  const isComplete = currentIndex >= TOTAL_SENTENCES && results.length === TOTAL_SENTENCES;
+  const currentTest = sessionTests[currentTestIndex] || null;
+  const currentTestNumber = currentTest?.testNumber || currentTestIndex + 1;
+  const currentTestLanguage = currentTest?.language || 'English';
+  const currentSentences = currentTest?.sentences || [];
+  const currentCombinedText = currentTest?.combinedText || '';
+
+  const isLastTest = currentTestIndex === TOTAL_TESTS - 1;
+  const allDone = isFinished && results.filter(Boolean).length === TOTAL_TESTS;
+
+  const nextTest = sessionTests[currentTestIndex + 1] || null;
+  const nextTestLanguage = nextTest?.language || null;
 
   const submitAudio = async (blob) => {
+    if (!currentTest) return;
     setIsPredicting(true);
     setCurrentPrediction(null);
 
-    const expectedLang = currentSentence.language;
+    const expectedLang = currentTest.language;
     const storedUser = localStorage.getItem('bhasa_user');
     const username = storedUser ? JSON.parse(storedUser) : 'anonymous';
 
@@ -80,8 +98,6 @@ export function useRecordingSession(languages = []) {
 
     try {
       const formData = new FormData();
-      // The browser's MediaRecorder creates a WebM file (or mp4 on Safari).
-      // Labeling it as .webm instead of .wav prevents `librosa` from misinterpreting the header.
       formData.append('audio', blob, 'recording.webm');
       formData.append('username', username);
       formData.append('expected_language', expectedLang);
@@ -103,7 +119,7 @@ export function useRecordingSession(languages = []) {
       const data = await response.json();
 
       const predictedLang = data.predicted_language;
-      const confidence = data.confidence / 100; // Normalize 0-1
+      const confidence = data.confidence / 100;
       const duration = data.duration_sec;
 
       const techSpecs = {
@@ -122,8 +138,8 @@ export function useRecordingSession(languages = []) {
         },
         formants: { 
           f1: (Math.random() * 400 + 300).toFixed(0) + ' Hz', 
-          f2: (Math.random() * 1000 + 1000).toFixed(0) + ' Hz',
-          f3: (Math.random() * 500 + 2200).toFixed(0) + ' Hz',
+          f2: (Math.random() * 1000 + 1000).toFixed(0) + ' Hz', 
+          f3: (Math.random() * 500 + 2200).toFixed(0) + ' Hz', 
           f4: (Math.random() * 500 + 3200).toFixed(0) + ' Hz'
         },
         timeDomain: { 
@@ -140,26 +156,26 @@ export function useRecordingSession(languages = []) {
       };
 
       const result = {
-        sentenceId: currentSentence.id,
-        sentence: currentSentence.text,
+        testNumber: currentTest.testNumber,
         expectedLanguage: expectedLang,
         predictedLanguage: predictedLang,
         confidence,
         isCorrect: predictedLang === expectedLang,
         duration,
+        sentences: currentTest.sentences,
+        combinedText: currentTest.combinedText,
         techSpecs,
-        probabilities: data.probabilities, // Store detailed probabilities
+        probabilities: data.probabilities,
       };
 
       setCurrentPrediction(result);
       setResults((prev) => {
         const updated = [...prev];
-        updated[currentIndex] = result;
+        updated[currentTestIndex] = result;
         return updated;
       });
     } catch (err) {
       console.error('Error during prediction API call:', err);
-      // Fallback for demo or server down
       alert('Failed to connect to backend server. Please verify your connection or check backend status.');
     } finally {
       setIsPredicting(false);
@@ -170,34 +186,42 @@ export function useRecordingSession(languages = []) {
     setCurrentPrediction(null);
     setResults((prev) => {
       const updated = [...prev];
-      updated[currentIndex] = null;
+      updated[currentTestIndex] = null;
       return updated;
     });
   };
 
   const goNext = () => {
-    if (currentIndex < TOTAL_SENTENCES - 1) {
-      setCurrentIndex((prev) => prev + 1);
-      setCurrentPrediction(results[currentIndex + 1] || null);
+    if (currentTestIndex < TOTAL_TESTS - 1) {
+      setCurrentTestIndex((prev) => prev + 1);
+      setCurrentPrediction(results[currentTestIndex + 1] || null);
+    } else if (currentTestIndex === TOTAL_TESTS - 1) {
+      setIsFinished(true);
     }
+  };
+
+  const finishSession = () => {
+    setIsFinished(true);
   };
 
   const goBack = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex((prev) => prev - 1);
-      setCurrentPrediction(results[currentIndex - 1] || null);
+    if (currentTestIndex > 0) {
+      setCurrentTestIndex((prev) => prev - 1);
+      setCurrentPrediction(results[currentTestIndex - 1] || null);
     }
   };
-
-  const isLastSentence = currentIndex === TOTAL_SENTENCES - 1;
-  const allDone = results.filter(Boolean).length === TOTAL_SENTENCES;
 
   return {
     initSession,
     isSessionReady,
-    currentSentence,
-    currentIndex,
-    totalSentences: TOTAL_SENTENCES,
+    currentTest,
+    currentTestIndex,
+    currentTestNumber,
+    currentTestLanguage,
+    currentSentences,
+    currentCombinedText,
+    totalTests: TOTAL_TESTS,
+    sentencesPerTest: SENTENCES_PER_TEST,
     isPredicting,
     currentPrediction,
     results,
@@ -205,8 +229,9 @@ export function useRecordingSession(languages = []) {
     reRecord,
     goNext,
     goBack,
-    isLastSentence,
+    finishSession,
+    isLastTest,
+    nextTestLanguage,
     allDone,
-    isComplete,
   };
 }

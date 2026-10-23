@@ -1,98 +1,102 @@
 import React from 'react';
 import {
   AppShell, Container, Title, Text, Button, Group,
-  SimpleGrid, ThemeIcon, Stack, Paper, Badge, Box, ActionIcon,
+  SimpleGrid, ThemeIcon, Stack, Paper, Badge, Box,
   Divider, Grid, Anchor, Avatar
 } from '@mantine/core';
 import {
-  IconArrowRight, IconShieldCheck, IconChartBar, IconLanguage,
-  IconChevronDown, IconUserPlus, IconSelect, IconMicrophone2,
+  IconArrowRight, IconShieldCheck, IconLanguage,
+  IconUserPlus, IconSelect, IconMicrophone2,
   IconBrain, IconReportAnalytics, IconLock,
-  
+  IconSchool
 } from '@tabler/icons-react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../lib/authContext';
 import Logo from '../components/Logo';
 import SiteHeader from '../components/SiteHeader';
-import HeroWaveform from '../components/HeroWaveform';
 
-// ─── DATA ────────────────────────────────────────────────────────────────────
+// ─── STUDY STEPS ─────────────────────────────────────────────────────────────
 
 const steps = [
   {
     number: '01',
     icon: IconUserPlus,
-    title: 'Create Your Profile',
-    desc: 'Set up your profile before starting the language identification process.',
+    title: 'Participant Profile',
+    desc: 'Provide basic demographic information (state, mother tongue) to aid linguistic diversity analysis.',
     color: '#3b82f6',
     bg: '#eff6ff',
   },
   {
     number: '02',
     icon: IconSelect,
-    title: 'Choose Your Language',
-    desc: 'Select from Hindi, English, or Dogri.',
-    color: '#8b5cf6',
-    bg: '#f5f3ff',
+    title: 'Select Language',
+    desc: 'Choose your preferred spoken language from Dogri, Hindi, or English.',
+    color: '#6366f1',
+    bg: '#eef2ff',
   },
   {
     number: '03',
     icon: IconMicrophone2,
-    title: 'Speak Naturally',
-    desc: 'Provide a natural speech sample through your microphone.',
-    color: '#10b981',
+    title: 'Record Speech Samples',
+    desc: 'Read the provided standard prompts naturally into your microphone.',
+    color: '#059669',
     bg: '#ecfdf5',
   },
   {
     number: '04',
     icon: IconBrain,
-    title: 'Analyze Your Voice',
-    desc: 'Our model extracts meaningful features from your voice and predicts the spoken language in real time.',
-    color: '#f59e0b',
+    title: 'Acoustic Feature Extraction',
+    desc: 'Spectral features (MFCCs) are extracted to capture phonological characteristics of the speech utterance.',
+    color: '#d97706',
     bg: '#fffbeb',
   },
   {
     number: '05',
     icon: IconReportAnalytics,
-    title: 'View Your Results',
-    desc: 'See your prediction, accuracy, confidence score, spectrogram, and technical specifications.',
-    color: '#ef4444',
+    title: 'Model Prediction & Metrics',
+    desc: 'The trained deep learning model evaluates the speech features and computes language classification probabilities.',
+    color: '#dc2626',
     bg: '#fef2f2',
   },
   {
     number: '06',
     icon: IconLock,
-    title: 'Privacy First',
-    desc: 'Your audio is not stored — only metadata is saved.',
-    color: '#6366f1',
-    bg: '#eef2ff',
+    title: 'Participant Privacy',
+    desc: 'Audio files are deleted immediately after feature extraction. Only anonymous metadata is preserved for research evaluation.',
+    color: '#475569',
+    bg: '#f1f5f9',
   },
 ];
 
+// ─── LANGUAGES UNDER INVESTIGATION ───────────────────────────────────────────
+
 const languages = [
+  {
+    name: 'Dogri',
+    script: 'डोगरी',
+    desc: 'An Indo-Aryan language primarily spoken in Jammu & Kashmir. A key focal point of this study addressing low-resource language preservation.',
+    accentColor: '#059669',
+    accentBg: '#ecfdf5',
+    flag: '🏔️',
+    classification: 'Scheduled 8th Indian Language',
+  },
   {
     name: 'Hindi',
     script: 'हिंदी',
-    desc: 'The most widely spoken language in India, serving as a lingua franca across the Hindi Belt.',
-    accentColor: '#f59e0b',
+    desc: 'The most widely spoken official Indian language, serving as an acoustic benchmark across diverse dialectal variations.',
+    accentColor: '#d97706',
     accentBg: '#fffbeb',
     flag: '🇮🇳',
+    classification: 'Indo-Aryan Family',
   },
   {
     name: 'English',
     script: 'English',
-    desc: 'A global language of science and technology, spoken natively and as a second language worldwide.',
-    accentColor: '#3b82f6',
+    desc: 'Global language of science and administration, examined for multilingual code-switching and comparative acoustic patterns.',
+    accentColor: '#2563eb',
     accentBg: '#eff6ff',
     flag: '🌐',
-  },
-  {
-    name: 'Dogri',
-    script: 'डोगरी',
-    desc: 'An Indo-Aryan language spoken in Jammu & Kashmir — an underrepresented language in AI research.',
-    accentColor: '#10b981',
-    accentBg: '#ecfdf5',
-    flag: '🏔️',
+    classification: 'Comparative Reference',
   },
 ];
 
@@ -110,70 +114,110 @@ export default function Landing() {
 
       <AppShell.Main>
 
-        {/* ─── HERO ──────────────────────────────────────────────────────── */}
-        <div
-          className="hero-wrapper"
+        {/* ─── HERO SECTION (CLEAN SOLID THEME, SPACIOUS) ────────────────── */}
+        <Box
+          bg="#ffffff"
           style={{
-            background: 'linear-gradient(135deg, #f8faff 0%, #f0f4ff 50%, #faf8ff 100%)',
+            borderBottom: '1px solid #e2e8f0',
           }}
         >
-          <div className="floating-shape shape-1" />
-          <div className="floating-shape shape-2" />
-          <div className="floating-shape shape-3" />
-          <div className="floating-shape shape-5" />
+          <Container size="xl" py={{ base: 50, md: 80 }}>
+            <SimpleGrid cols={{ base: 1, md: 2 }} spacing={{ base: 40, md: 60 }} align="center">
 
-          <Container size="xl" py={{ base: 60, md: 100 }} style={{ position: 'relative', zIndex: 1 }}>
-            <SimpleGrid cols={{ base: 1, md: 2 }} spacing="xl" align="center">
-
-              {/* Left — Copy */}
-              <Stack justify="center" align={{ base: 'center', md: 'flex-start' }}>
+              {/* Left Column: Academic Info & People Spotlight */}
+              <Stack gap="lg" align={{ base: 'center', md: 'flex-start' }}>
                 <Badge
-                  size="lg"
-                  variant="gradient"
-                  gradient={{ from: 'indigo', to: 'cyan' }}
-                  mb="xs"
+                  size="md"
+                  variant="outline"
+                  color="gray"
+                  radius="sm"
+                  leftSection={<IconSchool size={14} />}
                 >
-                  Spoken Language Identification Research
+                  University of Jammu · Dept. of Computer Science &amp; IT
                 </Badge>
 
                 <Title
-                  fz={{ base: 32, sm: 44, md: 50 }}
-                  lh={1.15}
+                  order={1}
+                  fz={{ base: 32, sm: 40, md: 46 }}
+                  lh={1.18}
                   fw={800}
                   ta={{ base: 'center', md: 'left' }}
+                  c="#0f172a"
                 >
-                  Speak naturally.{' '}
-                  <Text
-                    component="span"
-                    variant="gradient"
-                    gradient={{ from: 'indigo', to: 'cyan' }}
-                    inherit
-                  >
-                    Let AI identify
-                  </Text>{' '}
-                  the language in your voice.
+                  Spoken Language Identification Research
                 </Title>
 
                 <Text
-                  c="dimmed"
-                  fz={{ base: 'md', md: 'lg' }}
+                  c="#475569"
+                  fz={{ base: 'sm', md: 'md' }}
+                  lh={1.75}
                   ta={{ base: 'center', md: 'left' }}
-                  maw={520}
-                  mt="xs"
+                  maw={540}
                 >
-                  Bahasa Detect is an academic research initiative using speech processing and deep learning to identify spoken
-                  Hindi, English, and Dogri in real time.
+                  An empirical academic research study investigating speech processing and deep learning
+                  models for automatic spoken language identification in <strong>Dogri</strong>, <strong>Hindi</strong>, and <strong>English</strong>.
                 </Text>
 
-                <Group mt="lg">
+                {/* Individual People Boxes */}
+                <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm" style={{ width: '100%', maxWidth: 540 }}>
+                  {/* Box 1: Researcher */}
+                  <Paper
+                    withBorder
+                    p="sm"
+                    radius="md"
+                    bg="#f8fafc"
+                    style={{ borderColor: '#e2e8f0' }}
+                  >
+                    <Group gap="sm" wrap="nowrap" align="center">
+                      <Avatar size={42} radius="xl" color="indigo" variant="filled">SC</Avatar>
+                      <div style={{ minWidth: 0 }}>
+                        <Text size="sm" fw={700} c="#0f172a" truncate>
+                          Sneha Choudhary
+                        </Text>
+                        <Text size="xs" c="indigo.7" fw={600} truncate>
+                          Ph.D. Research Scholar
+                        </Text>
+                        <Text size="xs" c="#64748b" truncate>
+                          Dept. of CS &amp; IT, Univ. of Jammu
+                        </Text>
+                      </div>
+                    </Group>
+                  </Paper>
+
+                  {/* Box 2: Supervisor */}
+                  <Paper
+                    withBorder
+                    p="sm"
+                    radius="md"
+                    bg="#f8fafc"
+                    style={{ borderColor: '#e2e8f0' }}
+                  >
+                    <Group gap="sm" wrap="nowrap" align="center">
+                      <Avatar size={42} radius="xl" color="cyan" variant="filled">PA</Avatar>
+                      <div style={{ minWidth: 0 }}>
+                        <Text size="sm" fw={700} c="#0f172a" truncate>
+                          Prof. Pawanesh Abrol
+                        </Text>
+                        <Text size="xs" c="cyan.8" fw={600} truncate>
+                          Research Supervisor
+                        </Text>
+                        <Text size="xs" c="#64748b" truncate>
+                          Professor, Univ. of Jammu
+                        </Text>
+                      </div>
+                    </Group>
+                  </Paper>
+                </SimpleGrid>
+
+                {/* Actions */}
+                <Group gap="md" mt="xs">
                   <Button
                     size="md"
+                    color="indigo"
                     rightSection={<IconArrowRight size={18} />}
-                    variant="gradient"
-                    gradient={{ from: 'indigo', to: 'cyan' }}
                     onClick={() => navigate(user ? '/record' : '/login')}
                   >
-                    Contribute Voice Samples
+                    Contribute Voice Sample
                   </Button>
                   <Button
                     size="md"
@@ -185,144 +229,75 @@ export default function Landing() {
                   </Button>
                 </Group>
 
-                {/* Trust badges */}
-                <Group gap="xl" mt="lg">
+                {/* Privacy & Ethics Note */}
+                <Group gap="md" mt={4}>
                   <Group gap={6}>
-                    <IconShieldCheck size={18} color="#10b981" />
-                    <Text size="xs" c="dimmed">Audio not stored</Text>
+                    <IconShieldCheck size={16} color="#059669" />
+                    <Text size="xs" c="#64748b">Audio deleted after inference (metadata only)</Text>
                   </Group>
                   <Group gap={6}>
-                    <IconChartBar size={18} color="#3b82f6" />
-                    <Text size="xs" c="dimmed">Real-time analysis</Text>
-                  </Group>
-                  <Group gap={6}>
-                    <IconLanguage size={18} color="#8b5cf6" />
-                    <Text size="xs" c="dimmed">3 languages</Text>
+                    <IconLanguage size={16} color="#2563eb" />
+                    <Text size="xs" c="#64748b">Low-resource Dogri study</Text>
                   </Group>
                 </Group>
               </Stack>
 
-              {/* Right — Image */}
-              <Box
-                style={{
-                  position: 'relative',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: '24px',
-                  overflow: 'hidden',
-                  boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
-                  maxWidth: '80%',
-                  margin: '0 auto',
-                }}
-              >
-                {/* Color Theme Overlay */}
-                <div 
+              {/* Right Column: Lab & Team Photo */}
+              <Box>
+                <Paper
+                  withBorder
+                  radius="md"
+                  p="xs"
+                  bg="#ffffff"
                   style={{
-                    position: 'absolute',
-                    inset: 0,
-                    background: 'linear-gradient(135deg, rgba(79,70,229,0.7) 0%, rgba(6,182,212,0.7) 100%)',
-                    mixBlendMode: 'color',
-                    zIndex: 2,
-                    pointerEvents: 'none'
+                    borderColor: '#cbd5e1',
+                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.06)',
                   }}
-                />
-                <img 
-                  src="/academic_research_lab.jpg" 
-                  alt="Academic Research Lab" 
-                  style={{ width: '100%', height: 'auto', display: 'block', filter: 'grayscale(100%) contrast(1.1)' }} 
-                />
+                >
+                  <Box
+                    style={{
+                      borderRadius: '8px',
+                      overflow: 'hidden',
+                    }}
+                  >
+                    <img
+                      src="/hero_team.jpg"
+                      alt="Research scholars and faculty at the Speech Processing Lab, University of Jammu"
+                      style={{
+                        width: '100%',
+                        height: 'auto',
+                        display: 'block',
+                        maxHeight: '420px',
+                        objectFit: 'cover',
+                      }}
+                    />
+                  </Box>
+
+                  <Box pt="xs" px={4}>
+                    <Text size="xs" fw={600} c="#1e293b">
+                      Speech Processing &amp; AI Research Lab
+                    </Text>
+                    <Text size="xs" c="#64748b">
+                      Department of Computer Science &amp; IT, University of Jammu
+                    </Text>
+                  </Box>
+                </Paper>
               </Box>
+
             </SimpleGrid>
           </Container>
+        </Box>
 
-          {/* Scroll cue */}
-          <Box
-            visibleFrom="md"
-            className="scroll-bounce"
-            style={{
-              position: 'absolute',
-              bottom: '30px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              zIndex: 10,
-            }}
-            onClick={() =>
-              document.getElementById('how-it-works').scrollIntoView({ behavior: 'smooth' })
-            }
-          >
-            <ActionIcon size="xl" radius="xl" variant="transparent" color="gray">
-              <IconChevronDown size={36} stroke={1.5} />
-            </ActionIcon>
-          </Box>
-        </div>
-
-        {/* ─── RESEARCH TEAM ─────────────────────────────────────────────── */}
-        <div style={{ background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 100%)', padding: '100px 0' }}>
+        {/* ─── RESEARCH PARTICIPATION METHODOLOGY ─────────────────────────── */}
+        <Box bg="#f8fafc" py={{ base: 60, md: 80 }}>
           <Container size="xl">
-            <Stack align="center" mb={56}>
-              <Badge variant="white" color="indigo" size="lg">Research Team</Badge>
-              <Title order={2} ta="center" c="white" fz={{ base: 32, md: 42 }}>
-                Led by researchers at University of Jammu
+            <Stack align="center" mb={48}>
+              <Badge variant="outline" color="indigo" size="sm">Methodology</Badge>
+              <Title order={2} ta="center" fz={{ base: 26, md: 32 }} c="#0f172a" fw={700}>
+                How Participants Contribute to the Study
               </Title>
-              <Text c="rgba(255,255,255,0.8)" ta="center" maw={600} size="lg">
-                This project is part of a larger initiative to advance Indian language technology and build inclusive AI systems.
-              </Text>
-            </Stack>
-
-            <SimpleGrid cols={{ base: 1, md: 2 }} spacing="xl">
-              {/* Researcher */}
-              <Paper p="xl" radius="lg" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
-                <Badge variant="light" color="indigo" mb="md" style={{ background: 'rgba(99, 102, 241, 0.2)', color: '#e0e7ff' }}>Ph.D. Researcher</Badge>
-                <Group gap="md" mb="md">
-                  <Avatar size={64} radius="xl" color="indigo" variant="filled">SC</Avatar>
-                  <div>
-                    <Text fw={700} size="xl" c="white">Sneha Choudhary</Text>
-                    <Text c="rgba(255,255,255,0.6)" size="sm">Ph.D. Scholar</Text>
-                  </div>
-                </Group>
-                <Text size="sm" c="rgba(255,255,255,0.7)" lh={1.8}>
-                  Department of Computer Science &amp; IT<br />
-                  University of Jammu, Jammu &amp; Kashmir, India
-                </Text>
-              </Paper>
-
-              {/* Supervisor */}
-              <Paper p="xl" radius="lg" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
-                <Badge variant="light" color="cyan" mb="md" style={{ background: 'rgba(6, 182, 212, 0.2)', color: '#cffafe' }}>Research Supervisor</Badge>
-                <Group gap="md" mb="md">
-                  <Avatar size={64} radius="xl" color="cyan" variant="filled">PA</Avatar>
-                  <div>
-                    <Text fw={700} size="xl" c="white">Prof. Pawanesh Abrol</Text>
-                    <Text c="rgba(255,255,255,0.6)" size="sm">Professor &amp; Supervisor</Text>
-                  </div>
-                </Group>
-                <Text size="sm" c="rgba(255,255,255,0.7)" lh={1.8}>
-                  Department of Computer Science &amp; IT<br />
-                  University of Jammu, Jammu &amp; Kashmir, India
-                </Text>
-              </Paper>
-            </SimpleGrid>
-          </Container>
-        </div>
-
-
-        {/* ─── HOW IT WORKS ──────────────────────────────────────────────── */}
-        <div
-          id="how-it-works"
-          style={{
-            background: 'linear-gradient(180deg, #ffffff 0%, #f8faff 100%)',
-            padding: '90px 0',
-          }}
-        >
-          <Container size="xl">
-            <Stack align="center" mb={56}>
-              <Badge variant="light" color="indigo" size="lg">Step by Step</Badge>
-              <Title order={2} ta="center" fz={{ base: 28, md: 36 }}>
-                How It Works
-              </Title>
-              <Text c="dimmed" ta="center" maw={600} size="lg">
-                From signing up to seeing your results — here is the full process.
+              <Text c="#64748b" ta="center" maw={600} size="sm">
+                Standardized steps for collecting speech samples to train and evaluate deep neural acoustic models.
               </Text>
             </Stack>
 
@@ -330,47 +305,43 @@ export default function Landing() {
               {steps.map((step) => (
                 <Paper
                   key={step.number}
-                  p="xl"
-                  radius="lg"
+                  p="lg"
+                  radius="md"
                   withBorder
-                  style={{
-                    borderColor: `${step.color}22`,
-                    background: `linear-gradient(135deg, white 60%, ${step.bg} 100%)`,
-                    transition: 'box-shadow 0.2s',
-                  }}
+                  bg="#ffffff"
+                  style={{ borderColor: '#e2e8f0' }}
                 >
-                  <Group mb="md" align="flex-start">
+                  <Group mb="sm" justify="space-between" align="flex-start">
                     <ThemeIcon
-                      size={48}
-                      radius="xl"
-                      style={{ background: step.bg, color: step.color, flexShrink: 0 }}
+                      size={40}
+                      radius="md"
+                      style={{ background: step.bg, color: step.color }}
                       variant="light"
                     >
-                      <step.icon size={24} />
+                      <step.icon size={20} />
                     </ThemeIcon>
-                    <Text fw={800} fz={28} c="gray.2" lh={1} style={{ fontVariantNumeric: 'tabular-nums' }}>
+                    <Text fw={700} fz={20} c="#94a3b8" lh={1} style={{ fontVariantNumeric: 'tabular-nums' }}>
                       {step.number}
                     </Text>
                   </Group>
-                  <Text fw={700} mb="xs" size="md">{step.title}</Text>
-                  <Text c="dimmed" size="sm">{step.desc}</Text>
+                  <Text fw={700} mb={6} size="sm" c="#0f172a">{step.title}</Text>
+                  <Text c="#64748b" size="xs" lh={1.6}>{step.desc}</Text>
                 </Paper>
               ))}
             </SimpleGrid>
           </Container>
-        </div>
+        </Box>
 
-        {/* ─── SUPPORTED LANGUAGES ───────────────────────────────────────── */}
-        <div style={{ padding: '90px 0' }}>
+        {/* ─── LANGUAGES UNDER STUDY ─────────────────────────────────────── */}
+        <Box bg="#ffffff" py={{ base: 60, md: 80 }} style={{ borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0' }}>
           <Container size="xl">
-            <Stack align="center" mb={56}>
-              <Badge variant="light" color="indigo" size="lg">Supported Languages</Badge>
-              <Title order={2} ta="center" fz={{ base: 28, md: 36 }}>
-                Three Languages. One Platform.
+            <Stack align="center" mb={48}>
+              <Badge variant="outline" color="teal" size="sm">Corpus</Badge>
+              <Title order={2} ta="center" fz={{ base: 26, md: 32 }} c="#0f172a" fw={700}>
+                Languages Under Linguistic Investigation
               </Title>
-              <Text c="dimmed" ta="center" maw={600} size="lg">
-                Our model currently supports three languages with distinct phonetic characteristics,
-                enabling fine-grained spoken language identification research.
+              <Text c="#64748b" ta="center" maw={600} size="sm">
+                Evaluating acoustic phonetic discrimination across regional and national languages.
               </Text>
             </Stack>
 
@@ -379,99 +350,97 @@ export default function Landing() {
                 <Paper
                   key={lang.name}
                   p="xl"
-                  radius="lg"
+                  radius="md"
                   withBorder
+                  bg="#ffffff"
                   style={{
-                    borderTop: `4px solid ${lang.accentColor}`,
-                    background: `linear-gradient(160deg, white 50%, ${lang.accentBg} 100%)`,
+                    borderTop: `3px solid ${lang.accentColor}`,
+                    borderColor: '#e2e8f0',
                   }}
                 >
-                  <Group mb="md">
-                    <Text fz={32}>{lang.flag}</Text>
+                  <Group justify="space-between" align="flex-start" mb="md">
                     <div>
-                      <Text fw={700} size="xl">{lang.name}</Text>
-                      <Text size="md" style={{ color: lang.accentColor }} fw={500}>{lang.script}</Text>
+                      <Text fw={700} size="lg" c="#0f172a">{lang.name}</Text>
+                      <Text size="sm" style={{ color: lang.accentColor }} fw={600}>{lang.script}</Text>
                     </div>
+                    <Badge size="xs" variant="light" color="gray">{lang.classification}</Badge>
                   </Group>
-                  <Text c="dimmed" size="sm">{lang.desc}</Text>
+                  <Text c="#64748b" size="xs" lh={1.7}>{lang.desc}</Text>
                 </Paper>
               ))}
             </SimpleGrid>
           </Container>
-        </div>
-        {/* ─── CTA ───────────────────────────────────────────────────────── */}
-        <div
-          style={{
-            background: 'linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%)',
-            padding: '90px 0',
-          }}
-        >
+        </Box>
+
+        {/* ─── CALL TO PARTICIPATE (SOLID DARK CONTAINER) ────────────────── */}
+        <Box bg="#0f172a" py={{ base: 60, md: 70 }}>
           <Container size="md" ta="center">
-            <Stack align="center" gap="lg">
-              <Badge variant="white" color="indigo" size="lg">Contribute to Research</Badge>
-              <Title order={2} c="white" fz={{ base: 28, md: 40 }}>
-                Ready to contribute to AI research?
+            <Stack align="center" gap="md">
+              <Badge variant="filled" color="indigo" size="sm">Academic Call</Badge>
+              <Title order={2} c="#ffffff" fz={{ base: 24, md: 32 }} fw={700}>
+                Participate in Speech Recognition Research
               </Title>
-              <Text c="rgba(255,255,255,0.85)" size="lg" maw={520}>
-                It takes less than 5 minutes. Speak a few sentences and help build better
-                spoken language identification for underrepresented languages.
+              <Text c="#94a3b8" size="sm" maw={540} lh={1.7}>
+                Every recorded utterance directly assists in evaluating deep neural network models
+                for low-resource languages like Dogri. Your voice sample is processed anonymously.
               </Text>
               <Button
-                size="lg"
-                variant="white"
+                size="md"
                 color="indigo"
                 rightSection={<IconArrowRight size={18} />}
                 onClick={() => navigate(user ? '/record' : '/login')}
+                mt="xs"
               >
-                {user ? 'Start a New Session' : 'Contribute Now'}
+                {user ? 'Open Recording Dashboard' : 'Contribute a Voice Sample'}
               </Button>
             </Stack>
           </Container>
-        </div>
+        </Box>
 
-        {/* ─── FOOTER ────────────────────────────────────────────────────── */}
-        <div style={{ background: '#0f172a', padding: '60px 0 40px' }}>
+        {/* ─── ACADEMIC FOOTER ────────────────────────────────────────────── */}
+        <Box bg="#020617" py={{ base: 40, md: 50 }}>
           <Container size="xl">
-            <Grid gutter="xl" mb={40}>
+            <Grid gutter="xl" mb={30}>
               <Grid.Col span={{ base: 12, md: 5 }}>
-                <Group gap="sm" mb="sm">
-                  <Logo size={24} color="white" />
-                  <Text fw={700} size="lg" c="white">Bahasa Detect</Text>
+                <Group gap="sm" mb="xs">
+                  <Logo size={20} color="white" />
+                  <Text fw={700} size="sm" c="white">Bahasa Detect</Text>
                 </Group>
-                <Text size="sm" c="rgba(255,255,255,0.5)" maw={340} lh={1.7}>
-                  A research initiative in Spoken Language Identification
+                <Text size="xs" c="#94a3b8" maw={340} lh={1.7}>
+                  A doctoral research project in Spoken Language Identification (SLI).
+                  Department of Computer Science &amp; IT, University of Jammu.
                 </Text>
               </Grid.Col>
 
               <Grid.Col span={{ base: 12, md: 4 }}>
-                <Text size="xs" tt="uppercase" fw={700} c="rgba(255,255,255,0.4)" mb="sm" ls={1}>
-                  Researcher
+                <Text size="xs" tt="uppercase" fw={700} c="#64748b" mb="xs" ls={0.8}>
+                  Investigators
                 </Text>
-                <Text size="sm" c="rgba(255,255,255,0.85)" fw={600}>Sneha Choudhary</Text>
-                <Text size="sm" c="rgba(255,255,255,0.5)">Ph.D. Scholar</Text>
-                <Text size="sm" c="rgba(255,255,255,0.5)">Department of Computer Science &amp; IT</Text>
-                <Text size="sm" c="rgba(255,255,255,0.5)">University of Jammu, Jammu &amp; Kashmir, India</Text>
-                <Text size="sm" c="rgba(255,255,255,0.4)" mt="xs">
-                  Under the supervision of{' '}
-                  <Text component="span" c="rgba(255,255,255,0.65)" fw={600}>Prof. Pawanesh Abrol</Text>
-                </Text>
+                <Text size="xs" c="#e2e8f0" fw={600}>Sneha Choudhary (Ph.D. Scholar)</Text>
+                <Text size="xs" c="#94a3b8">Supervised by Prof. Pawanesh Abrol</Text>
+                <Text size="xs" c="#94a3b8">University of Jammu, Jammu &amp; Kashmir, India</Text>
               </Grid.Col>
 
               <Grid.Col span={{ base: 12, md: 3 }}>
-                <Text size="xs" tt="uppercase" fw={700} c="rgba(255,255,255,0.4)" mb="sm" ls={1}>
-                  Navigate
+                <Text size="xs" tt="uppercase" fw={700} c="#64748b" mb="xs" ls={0.8}>
+                  Navigation
                 </Text>
-                <Stack gap={6}>
+                <Stack gap={4}>
                   {[
                     { label: 'Home', to: '/' },
-                    { label: 'About', to: '/about' },
+                    { label: 'About Research', to: '/about' },
                     { label: 'Dashboard', to: '/dashboard' },
-                    { label: 'Record', to: '/record' },
+                    { label: 'Record Samples', to: '/record' },
                   ].map((l) => (
-                    <Anchor key={l.label} component={Link} to={l.to} size="sm" c="rgba(255,255,255,0.5)"
+                    <Anchor
+                      key={l.label}
+                      component={Link}
+                      to={l.to}
+                      size="xs"
+                      c="#94a3b8"
                       style={{ textDecoration: 'none' }}
-                      onMouseEnter={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.9)')}
-                      onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255,255,255,0.5)')}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = '#ffffff')}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = '#94a3b8')}
                     >
                       {l.label}
                     </Anchor>
@@ -480,18 +449,18 @@ export default function Landing() {
               </Grid.Col>
             </Grid>
 
-            <Divider color="rgba(255,255,255,0.08)" mb="md" />
+            <Divider color="#1e293b" mb="md" />
 
             <Group justify="space-between" wrap="wrap">
-              <Text size="xs" c="rgba(255,255,255,0.3)">
-                © 2026 Bahasa Detect · Research Project · University of Jammu
+              <Text size="xs" c="#64748b">
+                © 2026 Bahasa Detect · Academic Research Study · University of Jammu
               </Text>
-              <Text size="xs" c="rgba(255,255,255,0.3)">
+              <Text size="xs" c="#64748b">
                 Department of Computer Science &amp; IT
               </Text>
             </Group>
           </Container>
-        </div>
+        </Box>
 
       </AppShell.Main>
     </AppShell>

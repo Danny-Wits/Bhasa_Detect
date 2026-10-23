@@ -57,19 +57,19 @@ export default function About() {
         {/* ─── PAGE HERO ─────────────────────────────────────────────────── */}
         <div
           style={{
-            background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 60%, #0f172a 100%)',
+            background: '#0f172a',
             padding: '80px 0 70px',
           }}
         >
           <Container size="xl">
             <Stack align="center" gap="md">
-              <Badge variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }} size="lg">
+              <Badge variant="light" color="indigo" size="lg">
                 Research Overview
               </Badge>
               <Title order={1} ta="center" c="white" fz={{ base: 32, md: 48 }} fw={800}>
                 Spoken Language Identification
                 <br />
-                <Text component="span" variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }} inherit>
+                <Text component="span" c="indigo.3" inherit>
                   using Deep Learning
                 </Text>
               </Title>
@@ -139,8 +139,8 @@ export default function About() {
                   ta="center"
                   withBorder
                   style={{
-                    borderColor: `${item.color}22`,
-                    background: `linear-gradient(135deg, white 60%, ${item.bg} 100%)`,
+                    borderColor: `${item.color}33`,
+                    background: '#ffffff',
                   }}
                 >
                   <ThemeIcon
@@ -218,13 +218,13 @@ export default function About() {
                   withBorder
                   style={{
                     borderTop: `4px solid ${['#6366f1', '#8b5cf6', '#a855f7'][i]}`,
-                    background: 'linear-gradient(160deg, white 60%, #faf5ff 100%)',
+                    background: '#ffffff',
                   }}
                 >
                   <Badge
                     size="xl"
-                    variant="gradient"
-                    gradient={{ from: ['indigo', 'violet', 'grape'][i], to: ['violet', 'grape', 'pink'][i] }}
+                    variant="light"
+                    color={['indigo', 'violet', 'grape'][i]}
                     mb="md"
                     radius="md"
                     style={{ fontSize: 18, fontWeight: 800, padding: '8px 16px' }}
@@ -257,7 +257,7 @@ export default function About() {
                   withBorder
                   style={{
                     borderLeft: `4px solid ${['#14b8a6', '#06b6d4', '#0ea5e9'][i]}`,
-                    background: 'linear-gradient(160deg, white 60%, #f0fdfa 100%)',
+                    background: '#ffffff',
                   }}
                 >
                   <Text fw={800} size="lg" mb="xs"
@@ -275,7 +275,7 @@ export default function About() {
         {/* ─── CTA ────────────────────────────────────────────────────────── */}
         <div
           style={{
-            background: 'linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%)',
+            background: '#0f172a',
             padding: '80px 0',
           }}
         >

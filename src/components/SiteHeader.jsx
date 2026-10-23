@@ -71,8 +71,7 @@ export default function SiteHeader({ hideDashboard = false }) {
             </Group>
           ) : (
             <Button
-              variant="gradient"
-              gradient={{ from: 'indigo', to: 'cyan' }}
+              color="indigo"
               size="sm"
               component={Link}
               to="/login"
@@ -147,7 +146,7 @@ export default function SiteHeader({ hideDashboard = false }) {
               <Button variant="subtle" color="gray" component={Link} to="/about" onClick={close}
                 leftSection={<IconInfoCircle size={16} />}>About</Button>
               <Button
-                variant="gradient" gradient={{ from: 'indigo', to: 'cyan' }}
+                color="indigo"
                 component={Link} to="/login" onClick={close} mt="sm"
               >
                 Sign In

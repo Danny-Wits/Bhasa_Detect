@@ -1,9 +1,25 @@
 import React, { useState } from 'react';
-import { TextInput, Button, Container, Title, Paper, Text, Stack, SimpleGrid, ThemeIcon, Center, Modal, PasswordInput } from '@mantine/core';
+import {
+  TextInput,
+  PasswordInput,
+  Button,
+  Container,
+  Title,
+  Paper,
+  Text,
+  Stack,
+  Center,
+  Modal,
+  Badge,
+  Anchor,
+  Alert,
+  Box,
+} from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useAuth } from '../lib/authContext';
-import { useNavigate } from 'react-router-dom';
-import { IconMicrophone, IconBrain } from '@tabler/icons-react';
+import { useNavigate, Link } from 'react-router-dom';
+import { IconAlertCircle, IconArrowLeft } from '@tabler/icons-react';
+import Logo from '../components/Logo';
 
 export default function Login() {
   const [isRegister, setIsRegister] = useState(false);
@@ -16,7 +32,7 @@ export default function Login() {
   const [adminOpened, { open: openAdmin, close: closeAdmin }] = useDisclosure(false);
   const [adminPassword, setAdminPassword] = useState('');
   const [adminError, setAdminError] = useState('');
-  
+
   const { login, register, user } = useAuth();
   const navigate = useNavigate();
 
@@ -26,25 +42,26 @@ export default function Login() {
     }
   }, [user, navigate]);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    if (e) e.preventDefault();
     setError('');
     setLoading(true);
     try {
       if (isRegister) {
         if (!username || !email || !password) {
-          throw new Error("Please fill in all fields.");
+          throw new Error('Please fill in all required fields.');
         }
         await register(username, email, password);
         navigate('/onboarding');
       } else {
         if (!email || !password) {
-          throw new Error("Please fill in all fields.");
+          throw new Error('Please enter your email and password.');
         }
         await login(email, password);
-        navigate('/');
+        navigate('/dashboard');
       }
     } catch (err) {
-      setError(err.message);
+      setError(err.message || 'Authentication failed. Please check your credentials.');
     } finally {
       setLoading(false);
     }
@@ -60,11 +77,21 @@ export default function Login() {
   };
 
   return (
-    <>
-      <Modal opened={adminOpened} onClose={closeAdmin} title="Admin Access">
+    <Box
+      style={{
+        minHeight: '100vh',
+        background: '#f8fafc',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '24px 16px',
+      }}
+    >
+      {/* Admin Access Modal */}
+      <Modal opened={adminOpened} onClose={closeAdmin} title="Administrator Access" centered>
         <PasswordInput
           label="Admin Password"
-          placeholder="Enter password"
+          placeholder="Enter administrator password"
           value={adminPassword}
           onChange={(e) => {
             setAdminPassword(e.target.value);
@@ -73,95 +100,136 @@ export default function Login() {
           error={adminError}
           data-autofocus
         />
-        <Button fullWidth mt="md" onClick={handleAdminSubmit}>
-          Access Dashboard
+        <Button fullWidth mt="md" color="indigo" onClick={handleAdminSubmit}>
+          Access Admin Dashboard
         </Button>
       </Modal>
 
-      <Container size="md" my={60}>
-        <Paper withBorder shadow="xl" p={0} radius="lg" style={{ overflow: 'hidden' }}>
-          <SimpleGrid cols={{ base: 1, md: 2 }} spacing={0}>
-            {/* Left Side: Art & Info */}
-            <div style={{ backgroundColor: '#1a1b1e', padding: '2.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-              <Center mb="xl">
-                <IconBrain size={120} stroke={1} color="var(--mantine-color-gray-4)" />
-              </Center>
-              <Title order={2} c="white" mb="sm">Spoken Language Identification</Title>
-              <Text c="gray.5" size="sm">
-                A research project investigating deep learning approaches for automatic identification of spoken Hindi, English, and Dogri.
-              </Text>
-            </div>
+      <Container size="xs" style={{ width: '100%', maxWidth: '440px' }}>
+        {/* Back Link */}
+        <Center mb="lg">
+          <Anchor
+            component={Link}
+            to="/"
+            size="sm"
+            c="dimmed"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 6, textDecoration: 'none' }}
+          >
+            <IconArrowLeft size={16} /> Return to Research Homepage
+          </Anchor>
+        </Center>
 
-            {/* Right Side: Login Form */}
-            <div style={{ padding: '3rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-              <Stack align="center" mb="xl">
-                <ThemeIcon size={60} radius="xl">
-                  <IconMicrophone size={34} />
-                </ThemeIcon>
-                <Title order={3} ta="center">Welcome</Title>
-                <Text c="dimmed" size="sm" ta="center">
-                  {isRegister ? "Create an account to contribute" : "Sign in to continue your journey."}
-                </Text>
-              </Stack>
+        <Paper withBorder shadow="sm" radius="md" p={{ base: 'xl', sm: 32 }} bg="white">
+          <Stack align="center" gap="xs" mb="lg">
+            <Center mb={4}>
+              <Logo size={36} color="#4f46e5" />
+            </Center>
+            <Badge variant="light" color="indigo" size="sm">
+              Academic Research Portal
+            </Badge>
+            <Title order={2} fz={22} fw={700} ta="center" c="gray.9">
+              {isRegister ? 'Join Research Study' : 'Sign In to Your Account'}
+            </Title>
+            <Text c="dimmed" size="xs" ta="center" maw={320}>
+              {isRegister
+                ? 'Create a contributor profile to record speech samples for academic evaluation.'
+                : 'Enter your credentials to continue your speech recording sessions.'}
+            </Text>
+          </Stack>
 
-              {error && <Text c="red" size="sm" ta="center" mb="md">{error}</Text>}
+          {error && (
+            <Alert
+              icon={<IconAlertCircle size={16} />}
+              color="red"
+              variant="light"
+              mb="md"
+              radius="md"
+              p="xs"
+            >
+              <Text size="xs">{error}</Text>
+            </Alert>
+          )}
 
+          <form onSubmit={handleSubmit}>
+            <Stack gap="sm">
               {isRegister && (
-                <TextInput 
-                  label="Name" 
-                  placeholder="e.g. Alex" 
-                  required 
-                  size="md"
+                <TextInput
+                  label="Full Name"
+                  placeholder="e.g. Rahul Sharma"
+                  required
+                  size="sm"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  mb="md"
                 />
               )}
-              
-              <TextInput 
-                label="Email Address" 
-                placeholder="e.g. alex@example.com" 
+
+              <TextInput
+                label="Email Address"
+                placeholder="name@example.com"
                 required
-                size="md"
+                type="email"
+                size="sm"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                mb="md"
               />
 
-              <PasswordInput 
-                label="Password" 
-                placeholder="Your password" 
+              <PasswordInput
+                label="Password"
+                placeholder="Enter password"
                 required
-                size="md"
+                size="sm"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              
-              <Button fullWidth mt="xl" size="md" onClick={handleSubmit} loading={loading}>
-                {isRegister ? "Sign Up" : "Login"}
-              </Button>
 
-              <Text ta="center" mt="md" size="sm">
-                {isRegister ? "Already have an account? " : "Don't have an account? "}
-                <Text component="span" c="blue" style={{cursor: 'pointer'}} onClick={() => setIsRegister(!isRegister)}>
-                  {isRegister ? "Login here" : "Sign up here"}
-                </Text>
-              </Text>
-
-              <Button 
-                fullWidth 
-                mt="xl" 
-                size="sm" 
-                variant="subtle"
-                color="gray"
-                onClick={openAdmin}
+              <Button
+                fullWidth
+                mt="md"
+                size="md"
+                color="indigo"
+                type="submit"
+                loading={loading}
               >
-                Admin Access
+                {isRegister ? 'Create Account & Continue' : 'Sign In'}
               </Button>
-            </div>
-          </SimpleGrid>
+            </Stack>
+          </form>
+
+          <Center mt="lg">
+            <Text size="xs" c="dimmed">
+              {isRegister ? 'Already registered? ' : "Don't have an account yet? "}
+              <Anchor
+                component="button"
+                type="button"
+                c="indigo.6"
+                fw={600}
+                onClick={() => {
+                  setError('');
+                  setIsRegister(!isRegister);
+                }}
+              >
+                {isRegister ? 'Sign in here' : 'Sign up here'}
+              </Anchor>
+            </Text>
+          </Center>
+
+          <Center mt="xl" pt="xs" style={{ borderTop: '1px solid #f1f3f5' }}>
+            <Anchor
+              component="button"
+              type="button"
+              size="xs"
+              c="gray.5"
+              onClick={openAdmin}
+            >
+              Administrator Login
+            </Anchor>
+          </Center>
         </Paper>
+
+        <Text ta="center" size="xs" c="gray.5" mt="md">
+          Bahasa Detect · Dept. of Computer Science &amp; IT · University of Jammu
+        </Text>
       </Container>
-    </>
+    </Box>
   );
 }
