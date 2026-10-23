@@ -31,7 +31,4 @@ services:
         destination: /index.html
     envVars:
       - key: VITE_API_URL
-        fromService:
-          type: web
-          name: bhasa-detect-api
-          property: host
+        value: https://bhasa-detect-api.onrender.com
