@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../lib/authContext';
+import { API_BASE_URL } from '../lib/api';
 
 export function useDashboardData() {
   const [data, setData] = useState(null);
@@ -12,7 +13,7 @@ export function useDashboardData() {
         const token = getToken();
         if (!token) return;
 
-        const res = await fetch('http://localhost:8000/stats', {
+        const res = await fetch(`${API_BASE_URL}/stats`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         

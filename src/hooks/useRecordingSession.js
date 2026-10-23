@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { API_BASE_URL } from '../lib/api';
 
 const SENTENCES = {
   English: [
@@ -87,7 +88,7 @@ export function useRecordingSession(languages = []) {
 
       const token = localStorage.getItem('bhasa_token') || '';
       
-      const response = await fetch('http://localhost:8000/predict', {
+      const response = await fetch(`${API_BASE_URL}/predict`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -159,7 +160,7 @@ export function useRecordingSession(languages = []) {
     } catch (err) {
       console.error('Error during prediction API call:', err);
       // Fallback for demo or server down
-      alert('Failed to connect to backend server. Ensure it is running on port 8000.');
+      alert('Failed to connect to backend server. Please verify your connection or check backend status.');
     } finally {
       setIsPredicting(false);
     }

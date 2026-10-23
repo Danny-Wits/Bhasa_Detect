@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from passlib.context import CryptContext
 import jwt
 
-SECRET_KEY = "supersecret_bhasa_detect_key" # In production, use env var
+SECRET_KEY = os.getenv("SECRET_KEY", "supersecret_bhasa_detect_key")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7 # 1 week
 

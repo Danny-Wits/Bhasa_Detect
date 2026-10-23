@@ -20,13 +20,23 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 app = FastAPI(title="Bhasa Detect Backend")
 
+allowed_origins_env = os.getenv("ALLOWED_ORIGINS", "*")
+if allowed_origins_env == "*":
+    origins = ["*"]
+else:
+    origins = [orig.strip() for orig in allowed_origins_env.split(",") if orig.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.get("/health")
+def health_check():
+    return {"status": "ok", "app": "Bhasa Detect API"}
 
 # --- DEPENDENCIES ---
 def get_current_user(authorization: str = Header(None), db: Session = Depends(database.get_db)):
@@ -273,3 +283,31 @@ def get_stats(authorization: str = Header(None), db: Session = Depends(database.
         "predictionData": pred_data,
         "recentSessions": recent_formatted
     }
+
+# --- OPTIONAL FRONTEND STATIC ASSETS SERVING (Single-Service Deployment) ---
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+DIST_DIR = os.path.join(ROOT_DIR, "dist")
+
+if os.path.isdir(DIST_DIR):
+    from fastapi.staticfiles import StaticFiles
+    from starlette.responses import FileResponse
+
+    assets_dir = os.path.join(DIST_DIR, "assets")
+    if os.path.isdir(assets_dir):
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
+
+    @app.get("/{full_path:path}")
+    async def serve_spa(full_path: str):
+        # Exclude API endpoints from being captured
+        if full_path.startswith(("auth", "predict", "stats", "health", "docs", "openapi.json")):
+            raise HTTPException(status_code=404, detail="Not Found")
+        
+        target_file = os.path.join(DIST_DIR, full_path)
+        if os.path.isfile(target_file):
+            return FileResponse(target_file)
+        return FileResponse(os.path.join(DIST_DIR, "index.html"))
+else:
+    @app.get("/")
+    def index_fallback():
+        return {"message": "Bhasa Detect API is active. Connect your frontend or visit /docs for API documentation."}
+

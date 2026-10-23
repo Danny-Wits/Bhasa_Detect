@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { API_BASE_URL } from './api';
 
 const AuthContext = createContext({});
-const API_URL = 'http://localhost:8000';
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
       const token = localStorage.getItem('bhasa_token');
       if (token) {
         try {
-          const res = await fetch(`${API_URL}/auth/me`, {
+          const res = await fetch(`${API_BASE_URL}/auth/me`, {
             headers: { 'Authorization': `Bearer ${token}` }
           });
           if (res.ok) {
@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    const res = await fetch(`${API_URL}/auth/login`, {
+    const res = await fetch(`${API_BASE_URL}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password })
@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }) => {
     setUser(data.user);
     
     // Fetch profile
-    const profRes = await fetch(`${API_URL}/auth/me`, {
+    const profRes = await fetch(`${API_BASE_URL}/auth/me`, {
       headers: { 'Authorization': `Bearer ${data.token}` }
     });
     if (profRes.ok) {
@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const register = async (name, email, password) => {
-    const res = await fetch(`${API_URL}/auth/register`, {
+    const res = await fetch(`${API_BASE_URL}/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password })
@@ -84,7 +84,7 @@ export const AuthProvider = ({ children }) => {
 
   const saveProfile = async (profileData) => {
     const token = localStorage.getItem('bhasa_token');
-    const res = await fetch(`${API_URL}/auth/profile`, {
+    const res = await fetch(`${API_BASE_URL}/auth/profile`, {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
