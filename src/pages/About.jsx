@@ -6,8 +6,7 @@ import {
 } from '@mantine/core';
 import {
   IconBrain, IconChartBar, IconMicrophone2, IconLanguage,
-  IconArrowRight, IconBook, IconTargetArrow, IconUsersGroup,
-  IconTestPipe
+  IconArrowRight, IconBook, IconTargetArrow, IconUsersGroup
 } from '@tabler/icons-react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../lib/authContext';
@@ -22,10 +21,27 @@ const researchFocus = [
   { icon: IconTargetArrow, label: 'Spoken Language Identification', color: '#ef4444', bg: '#fef2f2' },
 ];
 
-const models = [
-  { name: 'CNN', desc: 'Convolutional Neural Network — extracts local spectral features from speech representations.' },
-  { name: 'BiLSTM', desc: 'Bidirectional Long Short-Term Memory — models temporal dynamics in both forward and backward directions.' },
-  { name: 'CNN-BiLSTM', desc: 'Hybrid architecture combining CNN\'s feature extraction with BiLSTM\'s sequential modelling.' },
+const cnnLayers = [
+  {
+    step: 'Input Stage',
+    title: 'Acoustic Feature Map',
+    desc: '40-band Mel-Frequency Cepstral Coefficients (MFCCs) extracted from 16 kHz audio signals framed over continuous time windows.',
+  },
+  {
+    step: 'Convolutional Blocks',
+    title: '2D Convolution & Pooling',
+    desc: 'Hierarchical 2D convolutional layers extract localized time-frequency acoustic patterns, paired with max-pooling downsampling.',
+  },
+  {
+    step: 'Regularization',
+    title: 'Dropout & Normalization',
+    desc: 'Batch normalization and dropout layers reduce overfitting, ensuring robust generalization across varying recording environments.',
+  },
+  {
+    step: 'Output Stage',
+    title: 'Dense Softmax Classifier',
+    desc: 'Fully connected dense layers map phonological representations into classification probabilities across Dogri, Hindi, and English.',
+  },
 ];
 
 const representations = [
@@ -36,10 +52,9 @@ const representations = [
 
 const objectives = [
   { num: '01', label: 'Spoken Language Identification', icon: IconMicrophone2 },
-  { num: '02', label: 'Model Comparison', icon: IconTestPipe },
-  { num: '03', label: 'Speech Feature Analysis', icon: IconChartBar },
-  { num: '04', label: 'Dogri Language Technology', icon: IconLanguage },
-  { num: '05', label: 'Inclusive AI', icon: IconUsersGroup },
+  { num: '02', label: 'Speech Feature Analysis', icon: IconChartBar },
+  { num: '03', label: 'Dogri Language Technology', icon: IconLanguage },
+  { num: '04', label: 'Inclusive AI', icon: IconUsersGroup },
 ];
 
 export default function About() {
@@ -170,8 +185,8 @@ export default function About() {
                   What this research aims to achieve
                 </Title>
                 <Text c="dimmed" size="md" lh={1.8}>
-                  This project addresses five core objectives spanning automated language identification,
-                  architecture evaluation, and support for underrepresented languages in AI systems.
+                  This project addresses core objectives spanning automated spoken language identification,
+                  speech feature analysis, and advancing language technology for underrepresented languages in AI systems.
                 </Text>
               </Grid.Col>
               <Grid.Col span={{ base: 12, md: 7 }}>
@@ -195,43 +210,41 @@ export default function About() {
           </Container>
         </div>
 
-        {/* ─── MODELS ─────────────────────────────────────────────────────── */}
+        {/* ─── CNN ARCHITECTURE ───────────────────────────────────────────── */}
         <div style={{ padding: '80px 0' }}>
           <Container size="xl">
             <Stack align="center" mb={48}>
-              <Badge variant="light" color="violet" size="lg">Models Under Investigation</Badge>
+              <Badge variant="light" color="indigo" size="lg">Learning Architecture</Badge>
               <Title order={2} ta="center" fz={{ base: 26, md: 34 }}>
-                Deep Learning Architectures
+                Convolutional Neural Network (CNN)
               </Title>
-              <Text c="dimmed" ta="center" maw={560} size="md">
-                The study compares three architectures to evaluate their effectiveness for
-                spoken language identification on MFCC and Mel-Spectrogram inputs.
+              <Text c="dimmed" ta="center" maw={640} size="md">
+                The research employs a deep 2D Convolutional Neural Network (CNN) engineered to extract
+                hierarchical acoustic patterns from speech representations for spoken language identification.
               </Text>
             </Stack>
 
-            <SimpleGrid cols={{ base: 1, md: 3 }} spacing="xl">
-              {models.map((m, i) => (
+            <SimpleGrid cols={{ base: 1, sm: 2, lg: 4 }} spacing="lg">
+              {cnnLayers.map((layer, i) => (
                 <Paper
-                  key={m.name}
+                  key={layer.step}
                   p="xl"
                   radius="lg"
                   withBorder
                   style={{
-                    borderTop: `4px solid ${['#6366f1', '#8b5cf6', '#a855f7'][i]}`,
+                    borderTop: '4px solid #4f46e5',
                     background: '#ffffff',
                   }}
                 >
-                  <Badge
-                    size="xl"
-                    variant="light"
-                    color={['indigo', 'violet', 'grape'][i]}
-                    mb="md"
-                    radius="md"
-                    style={{ fontSize: 18, fontWeight: 800, padding: '8px 16px' }}
-                  >
-                    {m.name}
-                  </Badge>
-                  <Text c="dimmed" size="sm" lh={1.7}>{m.desc}</Text>
+                  <Text size="xs" fw={700} c="indigo" tt="uppercase" mb="xs">
+                    Stage {i + 1} · {layer.step}
+                  </Text>
+                  <Text fw={700} size="md" mb="xs" c="#0f172a">
+                    {layer.title}
+                  </Text>
+                  <Text c="dimmed" size="sm" lh={1.6}>
+                    {layer.desc}
+                  </Text>
                 </Paper>
               ))}
             </SimpleGrid>

@@ -5,7 +5,7 @@ import {
   Divider, Grid, Anchor, Avatar
 } from '@mantine/core';
 import {
-  IconArrowRight, IconShieldCheck, IconLanguage,
+  IconArrowRight,
   IconUserPlus, IconSelect, IconMicrophone2,
   IconBrain, IconReportAnalytics, IconLock,
   IconSchool
@@ -155,7 +155,8 @@ export default function Landing() {
                   maw={540}
                 >
                   An empirical academic research study investigating speech processing and deep learning
-                  models for automatic spoken language identification in <strong>Dogri</strong>, <strong>Hindi</strong>, and <strong>English</strong>.
+                  models for automatic spoken language identification in <strong>Dogri</strong>, <strong>Hindi</strong>, and <strong>English</strong>,
+                  with a specialized focus on advancing speech technology for the low-resource Dogri language.
                 </Text>
 
                 {/* Individual People Boxes */}
@@ -219,26 +220,6 @@ export default function Landing() {
                   >
                     Contribute Voice Sample
                   </Button>
-                  <Button
-                    size="md"
-                    variant="default"
-                    component={Link}
-                    to="/about"
-                  >
-                    About the Research
-                  </Button>
-                </Group>
-
-                {/* Privacy & Ethics Note */}
-                <Group gap="md" mt={4}>
-                  <Group gap={6}>
-                    <IconShieldCheck size={16} color="#059669" />
-                    <Text size="xs" c="#64748b">Audio deleted after inference (metadata only)</Text>
-                  </Group>
-                  <Group gap={6}>
-                    <IconLanguage size={16} color="#2563eb" />
-                    <Text size="xs" c="#64748b">Low-resource Dogri study</Text>
-                  </Group>
                 </Group>
               </Stack>
 

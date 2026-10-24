@@ -61,19 +61,19 @@ export default function Dashboard() {
             <Stack gap="xl">
               {/* Welcome Banner */}
               <Paper withBorder p="xl" radius="lg" style={{ position: 'relative', overflow: 'hidden' }}>
-                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 4, background: '#1a1b1e' }} />
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 4, background: '#4f46e5' }} />
                 <Group justify="space-between" align="flex-start" wrap="wrap">
                   <div>
-                    <Title order={2} mb="xs">Welcome back, {user?.name}!</Title>
+                    <Title order={2} mb="xs">Welcome, {user?.name || 'Participant'}!</Title>
                     <Text c="dimmed">
                       Your evaluation dashboard — track your contributions to multilingual speech recognition research.
                     </Text>
                     <Text size="sm" c="dimmed" mt="xs">
-                      <strong>Languages:</strong> {profile?.languages?.join(', ')} &nbsp;|&nbsp;
+                      <strong>Languages:</strong> {profile?.languages?.join(', ') || 'Dogri, Hindi, English'} &nbsp;|&nbsp;
                       <strong>Location:</strong> {profile?.district ? `${profile.district}, ${profile.state}` : '—'}
                     </Text>
                   </div>
-                  <Button rightSection={<IconPlayerPlay size={16} />} onClick={() => navigate('/record')}>
+                  <Button color="indigo" rightSection={<IconPlayerPlay size={16} />} onClick={() => navigate('/record')}>
                     New Recording Session
                   </Button>
                 </Group>
