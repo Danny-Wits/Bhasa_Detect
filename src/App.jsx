@@ -50,7 +50,9 @@ function App() {
             <Route path="/" element={<Landing />} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/admin" element={<Admin />} />
+            {/* Obfuscated Admin Route - bot decoy redirects /admin to / */}
+            <Route path="/admin" element={<Navigate to="/" replace />} />
+            <Route path="/sli-evaluation-portal" element={<Admin />} />
 
             <Route element={<AuthGuard />}>
               <Route path="/onboarding" element={<Onboarding />} />

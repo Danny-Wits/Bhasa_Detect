@@ -2,7 +2,7 @@ import React from 'react';
 import { Group, Button, Burger, Drawer, Stack, Text, Badge, ActionIcon } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { IconLogout, IconDashboard, IconMicrophone, IconInfoCircle, IconHome } from '@tabler/icons-react';
+import { IconLogout, IconDashboard, IconMicrophone, IconInfoCircle, IconHome, IconShieldLock } from '@tabler/icons-react';
 import Logo from './Logo';
 import { useAuth } from '../lib/authContext';
 import { useProfile } from '../hooks/useProfile';
@@ -14,7 +14,14 @@ export default function SiteHeader({ hideDashboard = false }) {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const isAdmin =
+    typeof window !== 'undefined' &&
+    sessionStorage.getItem('bhasa_admin') === 'true' &&
+    Number(sessionStorage.getItem('bhasa_admin_expires') || 0) > Date.now();
+
   const handleLogout = () => {
+    sessionStorage.removeItem('bhasa_admin');
+    sessionStorage.removeItem('bhasa_admin_expires');
     logout();
     close();
     navigate('/');
@@ -54,6 +61,7 @@ export default function SiteHeader({ hideDashboard = false }) {
           {navBtn('/about', 'About')}
           {user && !hideDashboard && navBtn('/dashboard', 'Dashboard')}
           {user && navBtn('/record', 'Record')}
+          {isAdmin && navBtn('/sli-evaluation-portal', 'Evaluation Portal')}
 
           {user ? (
             <Group gap="xs" ml="sm">
@@ -131,6 +139,16 @@ export default function SiteHeader({ hideDashboard = false }) {
               >
                 Record
               </Button>
+              {isAdmin && (
+                <Button
+                  variant={isActive('/sli-evaluation-portal') ? 'light' : 'subtle'}
+                  color="indigo"
+                  component={Link} to="/sli-evaluation-portal" onClick={close}
+                  leftSection={<IconShieldLock size={16} />}
+                >
+                  Evaluation Portal
+                </Button>
+              )}
               <Button
                 variant="subtle" color="red" mt="xl"
                 onClick={handleLogout}
@@ -145,6 +163,16 @@ export default function SiteHeader({ hideDashboard = false }) {
                 leftSection={<IconHome size={16} />}>Home</Button>
               <Button variant="subtle" color="gray" component={Link} to="/about" onClick={close}
                 leftSection={<IconInfoCircle size={16} />}>About</Button>
+              {isAdmin && (
+                <Button
+                  variant={isActive('/sli-evaluation-portal') ? 'light' : 'subtle'}
+                  color="indigo"
+                  component={Link} to="/sli-evaluation-portal" onClick={close}
+                  leftSection={<IconShieldLock size={16} />}
+                >
+                  Evaluation Portal
+                </Button>
+              )}
               <Button
                 color="indigo"
                 component={Link} to="/login" onClick={close} mt="sm"

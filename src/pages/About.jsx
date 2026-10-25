@@ -105,7 +105,7 @@ export default function About() {
               <Paper p="xl" radius="lg" withBorder style={{ borderTop: '4px solid #6366f1' }}>
                 <Badge variant="light" color="indigo" mb="md">Ph.D. Researcher</Badge>
                 <Group gap="md" mb="md">
-                  <Avatar size={64} radius="xl" color="indigo" variant="filled">SC</Avatar>
+                  <Avatar src="/sneha_choudhary.jpg" alt="Sneha Choudhary" size={68} radius="xl" color="indigo">SC</Avatar>
                   <div>
                     <Text fw={700} size="xl">Sneha Choudhary</Text>
                     <Text c="dimmed" size="sm">Ph.D. Scholar</Text>
@@ -121,7 +121,7 @@ export default function About() {
               <Paper p="xl" radius="lg" withBorder style={{ borderTop: '4px solid #06b6d4' }}>
                 <Badge variant="light" color="cyan" mb="md">Research Supervisor</Badge>
                 <Group gap="md" mb="md">
-                  <Avatar size={64} radius="xl" color="cyan" variant="filled">PA</Avatar>
+                  <Avatar src="/pawanesh_abrol.jpg" alt="Prof. Pawanesh Abrol" size={68} radius="xl" color="cyan">PA</Avatar>
                   <div>
                     <Text fw={700} size="xl">Prof. Pawanesh Abrol</Text>
                     <Text c="dimmed" size="sm">Professor &amp; Supervisor</Text>

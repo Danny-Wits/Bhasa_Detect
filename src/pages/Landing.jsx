@@ -170,7 +170,7 @@ export default function Landing() {
                     style={{ borderColor: '#e2e8f0' }}
                   >
                     <Group gap="sm" wrap="nowrap" align="center">
-                      <Avatar size={42} radius="xl" color="indigo" variant="filled">SC</Avatar>
+                      <Avatar src="/sneha_choudhary.jpg" alt="Sneha Choudhary" size={46} radius="xl" color="indigo">SC</Avatar>
                       <div style={{ minWidth: 0 }}>
                         <Text size="sm" fw={700} c="#0f172a" truncate>
                           Sneha Choudhary
@@ -194,7 +194,7 @@ export default function Landing() {
                     style={{ borderColor: '#e2e8f0' }}
                   >
                     <Group gap="sm" wrap="nowrap" align="center">
-                      <Avatar size={42} radius="xl" color="cyan" variant="filled">PA</Avatar>
+                      <Avatar src="/pawanesh_abrol.jpg" alt="Prof. Pawanesh Abrol" size={46} radius="xl" color="cyan">PA</Avatar>
                       <div style={{ minWidth: 0 }}>
                         <Text size="sm" fw={700} c="#0f172a" truncate>
                           Prof. Pawanesh Abrol

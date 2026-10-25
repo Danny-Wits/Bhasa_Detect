@@ -284,6 +284,114 @@ def get_stats(authorization: str = Header(None), db: Session = Depends(database.
         "recentSessions": recent_formatted
     }
 
+@app.get("/admin/analytics")
+def get_admin_analytics(db: Session = Depends(database.get_db)):
+    from sqlalchemy.orm import joinedload
+    preds = db.query(models.PredictionRecord).options(
+        joinedload(models.PredictionRecord.user).joinedload(models.User.profile)
+    ).all()
+    
+    total_records = len(preds)
+    correct_records = sum(1 for p in preds if p.expected_language == p.predicted_language)
+    overall_accuracy = round((correct_records / total_records) * 100, 1) if total_records > 0 else 0.0
+    
+    langs = ["Dogri", "Hindi", "English"]
+    cm = {l: {l2: 0 for l2 in langs} for l in langs}
+    lang_stats = {l: {"total": 0, "correct": 0} for l in langs}
+    
+    durations = []
+    correct_durations = []
+    incorrect_durations = []
+    confidences = []
+    correct_confidences = []
+    incorrect_confidences = []
+
+    for p in preds:
+        exp = p.expected_language
+        pred = p.predicted_language
+        dur = p.duration_sec or 0.0
+        conf = p.confidence or 0.0
+        durations.append(dur)
+        confidences.append(conf)
+        
+        is_corr = (exp == pred)
+        if is_corr:
+            correct_durations.append(dur)
+            correct_confidences.append(conf)
+        else:
+            incorrect_durations.append(dur)
+            incorrect_confidences.append(conf)
+            
+        if exp in cm and pred in cm[exp]:
+            cm[exp][pred] += 1
+            
+        if exp in lang_stats:
+            lang_stats[exp]["total"] += 1
+            if is_corr:
+                lang_stats[exp]["correct"] += 1
+                
+    users = db.query(models.User).options(joinedload(models.User.profile)).all()
+    live_speakers = []
+    for u in users:
+        u_preds = [p for p in preds if p.user_id == u.id]
+        u_total = len(u_preds)
+        u_correct = sum(1 for p in u_preds if p.expected_language == p.predicted_language)
+        u_acc = round((u_correct / u_total) * 100, 1) if u_total > 0 else 0.0
+        u_dur = round(sum(p.duration_sec or 0 for p in u_preds) / u_total, 1) if u_total > 0 else 0.0
+        
+        prof = u.profile
+        langs_spoken = []
+        if prof and prof.languages:
+            try:
+                langs_spoken = json.loads(prof.languages)
+            except:
+                langs_spoken = ["Dogri", "Hindi"]
+                
+        live_speakers.append({
+            "id": f"SPK-{u.id:03d}",
+            "name": u.name,
+            "age": prof.age if prof and prof.age else "20-30",
+            "gender": prof.gender if prof and prof.gender else "Not Specified",
+            "place": prof.district if prof and prof.district else (prof.state if prof and prof.state else "Jammu"),
+            "languages": langs_spoken or ["Dogri", "Hindi", "English"],
+            "sessions": max(1, u_total // 5),
+            "totalSamples": u_total,
+            "accuracy": u_acc,
+            "avgDuration": f"{u_dur}s",
+            "date": u.created_at.strftime("%Y-%m-%d") if u.created_at else "2026-10-25"
+        })
+        
+    recent_rows = []
+    for p in sorted(preds, key=lambda x: str(x.created_at or ""), reverse=True)[:50]:
+        recent_rows.append({
+            "id": p.id,
+            "speaker": p.user.name if p.user else (p.username or "Anonymous"),
+            "expectedLanguage": p.expected_language or "—",
+            "predictedLanguage": p.predicted_language or "—",
+            "confidence": round(p.confidence, 1) if p.confidence else 0.0,
+            "isCorrect": p.expected_language == p.predicted_language,
+            "duration": round(p.duration_sec, 1) if p.duration_sec else 0.0,
+            "date": p.created_at.strftime("%Y-%m-%d %H:%M") if p.created_at else "—"
+        })
+        
+    return {
+        "status": "connected",
+        "database": "bhasa.db",
+        "totalRecords": total_records,
+        "correctRecords": correct_records,
+        "overallAccuracy": overall_accuracy,
+        "totalSpeakers": len(users),
+        "meanConfidence": round(sum(confidences) / len(confidences), 1) if confidences else 0.0,
+        "meanCorrectConfidence": round(sum(correct_confidences) / len(correct_confidences), 1) if correct_confidences else 0.0,
+        "meanIncorrectConfidence": round(sum(incorrect_confidences) / len(incorrect_confidences), 1) if incorrect_confidences else 0.0,
+        "avgDurationSec": round(sum(durations) / len(durations), 1) if durations else 0.0,
+        "totalSpeakingMins": round(sum(durations) / 60, 1),
+        "confusionMatrix": cm,
+        "languageStats": lang_stats,
+        "liveSpeakers": live_speakers,
+        "recentPredictions": recent_rows
+    }
+
 # --- OPTIONAL FRONTEND STATIC ASSETS SERVING (Single-Service Deployment) ---
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 DIST_DIR = os.path.join(ROOT_DIR, "dist")
@@ -299,7 +407,7 @@ if os.path.isdir(DIST_DIR):
     @app.get("/{full_path:path}")
     async def serve_spa(full_path: str):
         # Exclude API endpoints from being captured
-        if full_path.startswith(("auth", "predict", "stats", "health", "docs", "openapi.json")):
+        if full_path.startswith(("auth", "predict", "stats", "admin", "health", "docs", "openapi.json")):
             raise HTTPException(status_code=404, detail="Not Found")
         
         target_file = os.path.join(DIST_DIR, full_path)
